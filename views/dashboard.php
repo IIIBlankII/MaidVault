@@ -9,5 +9,6 @@
 <body> 
     Dashboard
     <p><a href="login.php">Logout</a></p>
+    test
 
 </body>
