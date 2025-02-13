@@ -3,15 +3,10 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Include database connection
-require_once "db_connect.php";
+// Include the User model
+require_once '../models/User.php';
 
-// Check if the connection is working
-if (!$conn) {
-    die("Database connection failed: " . mysqli_connect_error());
-}
-echo "Database connected successfully.";
-
+// Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $firstName = trim($_POST["first-name"]);
     $lastName = trim($_POST["last-name"]);
@@ -31,25 +26,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Password must be at least 8 characters long.");
     }
 
-    // Hash password
-    $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+    // Use the User model to register the user
+    $userCreated = User::register($firstName, $lastName, $email, $password);
 
-    // Insert user into the database
-    $stmt = $conn->prepare("INSERT INTO users (email, password, fname, lname) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $email, $hashedPassword, $firstName, $lastName);
-
-    if ($stmt->execute()) {
+    if ($userCreated) {
         // Redirect to login page after successful signup
-        header("Location: ../html/login/login.html");
+        header("Location: ../views/login.php");
         exit();
     } else {
-        echo "Error: " . $stmt->error;
+        echo "Error: Unable to register user.";
     }
-
-    // Close statement
-    $stmt->close();
 }
-
-// Close database connection
-$conn->close();
 ?>

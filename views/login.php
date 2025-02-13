@@ -1,17 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MaidVault Login</title>
-  <link rel="stylesheet" href="../../css/styles.css">
-</head>
-<body>
+<?php include '../includes/header.php'; ?>
   <div class="login-container">
     <h1>MaidVault</h1>
     <p>Please log in to continue</p>
 
-    <form action="../../php/login.php" method="POST">
+    <form action="../controllers/loginController.php" method="POST">
       <div class="form-group">
         <label for="email">Email Address</label>
         <input type="email" id="email" name="email" placeholder="Email Address" required>
@@ -23,21 +15,19 @@
           It must be a combination of a minimum of 8 letters, numbers, and symbols.
         </small>
       </div>
-    
+
       <div class="options">
         <label>
           <input type="checkbox" name="remember"> Remember me
         </label>
-        <a href="forgot-password.html">Forgot password?</a>
+        <a href="forgot-password.php">Forgot password?</a>
       </div>
-    
+
       <button type="submit">Log In</button>
     </form>
-    
 
     <div class="signup">
-      No account yet? <a href="signup.html">Sign up</a>
+      No account yet? <a href="signup.php">Sign up</a>
     </div>
   </div>
-</body>
-</html>
+<?php include '../includes/footer.php'; ?>

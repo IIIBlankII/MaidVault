@@ -4,34 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
-    <link rel="stylesheet" href="../../css/styles.css">
-    <script>
-        function validateForm() {
-            let firstName = document.getElementById("first-name").value.trim();
-            let lastName = document.getElementById("last-name").value.trim();
-            let email = document.getElementById("email").value.trim();
-            let password = document.getElementById("password").value.trim();
-            let emailPattern = /^[^\s@]+@[^\s@]+\.com$/; // Ensures email ends with .com
-            let passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/; // 8 characters, at least 1 letter, 1 number, 1 special character
-
-            if (firstName === "" || lastName === "" || email === "" || password === "") {
-                alert("All fields are required.");
-                return false;
-            }
-
-            if (!emailPattern.test(email)) {
-                alert("Invalid email format. Email must end with .com");
-                return false;
-            }
-
-            if (!passwordPattern.test(password)) {
-                alert("Password must be at least 8 characters long and include at least one letter, one number, and one special character.");
-                return false;
-            }
-
-            return true; // Submit form if all checks pass
-        }
-    </script>
+    <link rel="stylesheet" href="../public/css/styles.css">
+    <script src="../public/js/validation.js"></script>
 </head>
 <body>
     <div class="login-container">
@@ -39,7 +13,7 @@
 
         <div style="height: 30px;"></div> <!-- Adjust height as needed -->
 
-        <form action="../../php/signup.php" method="post" onsubmit="return validateForm()">
+        <form action="../controllers/signupController.php" method="post" onsubmit="return validateForm()">
             <div class="name-fields">
                 <div class="form-group">
                     <label for="first-name">First Name</label>

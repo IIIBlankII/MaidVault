@@ -1,5 +1,5 @@
 <?php
-    require_once "../php/auth_check.php";
+    require_once "../controllers/auth_check.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,6 +8,6 @@
 </head>
 <body> 
     Dashboard
-    <p><a href="login/login.html">Logout</a></p>
+    <p><a href="login.php">Logout</a></p>
 
 </body>
