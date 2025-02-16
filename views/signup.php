@@ -43,7 +43,7 @@
 
         <div class="separator"></div>
 
-        <p class="signup"><a href="login.html">Already have an account?</a></p>
+        <p class="signup"><a href="../public/login.php">Already have an account?</a></p>
     </div>
 </body>
 </html>

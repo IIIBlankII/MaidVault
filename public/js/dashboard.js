@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Function to dynamically load content
     window.loadPage = function (page) {
-        fetch(`../../views/dashboard/${page}.html`)
+        fetch(`../../views/dashboard/${page}.php`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error("Page not found");

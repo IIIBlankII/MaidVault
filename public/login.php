@@ -27,7 +27,7 @@
     </form>
 
     <div class="signup">
-      No account yet? <a href="signup.php">Sign up</a>
+      No account yet? <a href="../views/signup.php">Sign up</a>
     </div>
   </div>
 <?php include '../includes/footer.php'; ?>
