@@ -1,55 +1,87 @@
 <?php
-require_once '../../models/Maid.php'; 
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get form data
-    $firstName = $_POST['maid_fname'];
-    $lastName = $_POST['maid_lname'];
-    $dob = $_POST['maid_dob'];
-    $nationality = $_POST['maid_nationality'];
-    $skills = $_POST['maid_skills'];
-    $status = $_POST['maid_status'];
-
-    // Call the Maid class method to add the maid to the database
-    $result = Maid::addMaid($firstName, $lastName, $dob, $nationality, $skills, $status);
-
-    if ($result) {
-        echo "<p class='text-green-500'>Maid added successfully!</p>";
-    } else {
-        echo "<p class='text-red-500'>Error: Could not add maid to the database.</p>";
-    }
-}
+// This view file contains only the form markup.
+// Form action points to the combined controller.
 ?>
-
 <h1 class="text-2xl font-semibold mb-4">Add New Maid</h1>
-<form id="addMaidForm" action="add_maid.php" method="POST" class="bg-white p-4 shadow-md rounded-md">
-    <div class="mb-4">
-        <label class="block text-gray-700">First Name</label>
-        <input type="text" name="maid_fname" id="maidFName" class="w-full px-3 py-2 border rounded-md" required>
+<form id="addMaidForm" method="POST" action="../../controllers/addMaidAndVisaController.php" class="space-y-6">
+    <!-- Maid Details Section -->
+    <div class="bg-white p-4 shadow-md rounded-md">
+        <h2 class="text-xl font-semibold mb-4">Maid Details</h2>
+        <div class="mb-4">
+            <label class="block text-gray-700">First Name</label>
+            <input type="text" name="fname" required class="w-full px-3 py-2 border rounded-md">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700">Last Name</label>
+            <input type="text" name="lname" required class="w-full px-3 py-2 border rounded-md">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700">Date of Birth</label>
+            <input type="date" name="date_of_birth" required class="w-full px-3 py-2 border rounded-md">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700">Skills</label>
+            <textarea name="skills" required class="w-full px-3 py-2 border rounded-md"></textarea>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700">Employment Status</label>
+            <select name="employment_status" required class="w-full px-3 py-2 border rounded-md">
+                <option value="Available">Available</option>
+                <option value="Hired">Hired</option>
+                <option value="Inactive">Inactive</option>
+            </select>
+        </div>
     </div>
-    <div class="mb-4">
-        <label class="block text-gray-700">Last Name</label>
-        <input type="text" name="maid_lname" id="maidLName" class="w-full px-3 py-2 border rounded-md" required>
+
+    <!-- Visa Details Section -->
+    <div class="bg-white p-4 shadow-md rounded-md border border-gray-200">
+        <h2 class="text-xl font-semibold mb-4">Visa Details</h2>
+        <div class="mb-4">
+            <label class="block text-gray-700">Visa Type</label>
+            <input type="text" name="visa_type" required class="w-full px-3 py-2 border rounded-md">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700">Visa Number</label>
+            <input type="text" name="visa_number" required class="w-full px-3 py-2 border rounded-md">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700">Date of Issue</label>
+            <input type="date" name="date_of_issue" required class="w-full px-3 py-2 border rounded-md">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700">Expiration Date</label>
+            <input type="date" name="expiration_date" required class="w-full px-3 py-2 border rounded-md">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700">Visa Duration</label>
+            <input type="text" name="visa_duration" required class="w-full px-3 py-2 border rounded-md">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700">Work Permit Status</label>
+            <input type="text" name="work_permit_status" required class="w-full px-3 py-2 border rounded-md">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700">Passport Number</label>
+            <input type="text" name="passport_number" required class="w-full px-3 py-2 border rounded-md">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700">Issuing Country</label>
+            <input type="text" name="issuing_country" required class="w-full px-3 py-2 border rounded-md">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700">Immigration Reference Number</label>
+            <input type="text" name="immigration_reference_number" required class="w-full px-3 py-2 border rounded-md">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700">Entry Date</label>
+            <input type="date" name="entry_date" required class="w-full px-3 py-2 border rounded-md">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700">Exit Date</label>
+            <input type="date" name="exit_date" required class="w-full px-3 py-2 border rounded-md">
+        </div>
     </div>
-    <div class="mb-4">
-        <label class="block text-gray-700">Date of Birth</label>
-        <input type="date" name="maid_dob" id="maidDob" class="w-full px-3 py-2 border rounded-md" required>
-    </div>
-    <div class="mb-4">
-        <label class="block text-gray-700">Nationality</label>
-        <input type="text" name="maid_nationality" id="maidNationality" class="w-full px-3 py-2 border rounded-md" required>
-    </div>
-    <div class="mb-4">
-        <label class="block text-gray-700">Skills</label>
-        <textarea name="maid_skills" id="maidSkills" rows="4" class="w-full px-3 py-2 border rounded-md" required></textarea>
-    </div>
-    <div class="mb-4">
-        <label class="block text-gray-700">Employment Status</label>
-        <select name="maid_status" id="maidStatus" class="w-full px-3 py-2 border rounded-md">
-            <option value="Available">Available</option>
-            <option value="Hired">Hired</option>
-            <option value="Inactive">Inactive</option>
-        </select>
-    </div>
+
+    <!-- Single Submit Button for Both Sections -->
     <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">Add Maid</button>
 </form>
