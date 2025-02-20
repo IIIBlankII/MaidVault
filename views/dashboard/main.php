@@ -69,25 +69,12 @@
                     </div>
                 </div>
 
-                <!-- Document Dropdown -->
-                <div>
-                    <button id="document-btn" class="flex justify-between w-full py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
-                        <span><i class="fa-solid fa-file-alt mr-2"></i> Documents</span>
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </button>
-                    <div id="document-dropdown" class="hidden pl-6">
-                        <a href="#" onclick="loadPage('maid_doc')" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
-                            Maid Documents
-                        </a>
-                        <a href="#" onclick="loadPage('client_doc')" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
-                            Client Documents
-                        </a>
-                    </div>
-                </div>
+            
 
                 <a href="#" onclick="loadPage('calendar')" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
-                    <i class="fa-solid fa-calendar-alt mr-2"></i> Calendar & Schedule
-                </a>
+    <i class="fa-solid fa-calendar-alt mr-2"></i> Calendar & Schedule
+</a>
+
                 <a href="#" onclick="loadPage('analytics')" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
                     <i class="fa-solid fa-chart-line mr-2"></i> Analytics
                 </a>

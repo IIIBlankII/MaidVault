@@ -6,6 +6,8 @@
             <th class="border px-4 py-2">Name</th>
             <th class="border px-4 py-2">Age</th>
             <th class="border px-4 py-2">Nationality</th>
+            <th class="border px-4 py-2">Visa Expiry Date</th>
+
         </tr>
     </thead>
     <tbody class="bg-white">
@@ -14,6 +16,7 @@
             <td class="border px-4 py-2">Jane Doe</td>
             <td class="border px-4 py-2">28</td>
             <td class="border px-4 py-2">Filipino</td>
+            <td class="border px-4 py-2">date</td>
         </tr>
     </tbody>
 </table>

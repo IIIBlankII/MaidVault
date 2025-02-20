@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Set up dropdowns
     setupDropdown("maid-btn", "maid-dropdown");
     setupDropdown("client-btn", "client-dropdown");
-    setupDropdown("document-btn", "document-dropdown");
+    
 
     // Function to dynamically load content
     window.loadPage = function (page) {
