@@ -8,13 +8,21 @@ $query = "SELECT m.maid_id, m.fname, m.lname, m.date_of_birth, m.skills, m.emplo
           ORDER BY m.maid_id ASC";
 $result = $conn->query($query);
 
-// Helper function to calculate age
+// Helper function to calculate age from date of birth
 function calculate_age($dob) {
     $birthDate = new DateTime($dob);
     $today = new DateTime('today');
     return $birthDate->diff($today)->y;
 }
 ?>
+
+<!-- Inline style for link hover effects -->
+<style>
+    .maid-link:hover {
+        color: blue;
+        text-decoration: underline;
+    }
+</style>
 
 <h1 class="text-2xl font-semibold mb-4">Maid List</h1>
 <table class="w-full border-collapse border">
@@ -32,10 +40,7 @@ function calculate_age($dob) {
         <?php if ($result && $result->num_rows > 0): ?>
             <?php while ($row = $result->fetch_assoc()): ?>
                 <?php
-                    // Calculate Age
                     $age = calculate_age($row['date_of_birth']);
-
-                    // Determine Visa Status using the expiration_date from visa_details
                     if (!empty($row['expiration_date'])) {
                         $expiration = new DateTime($row['expiration_date']);
                         $today = new DateTime('today');
@@ -45,8 +50,16 @@ function calculate_age($dob) {
                     }
                 ?>
                 <tr>
-                    <td class="border px-4 py-2"><?php echo htmlspecialchars($row['maid_id']); ?></td>
-                    <td class="border px-4 py-2"><?php echo htmlspecialchars($row['fname'] . " " . $row['lname']); ?></td>
+                    <td class="border px-4 py-2">
+                        <a class="maid-link" href="#" onclick="loadPage('detailed_maids.php?maid_id=<?php echo $row['maid_id']; ?>')">
+                            <?php echo htmlspecialchars($row['maid_id']); ?>
+                        </a>
+                    </td>
+                    <td class="border px-4 py-2">
+                        <a class="maid-link" href="#" onclick="loadPage('detailed_maids.php?maid_id=<?php echo $row['maid_id']; ?>')">
+                            <?php echo htmlspecialchars($row['fname'] . " " . $row['lname']); ?>
+                        </a>
+                    </td>
                     <td class="border px-4 py-2"><?php echo $age; ?></td>
                     <td class="border px-4 py-2"><?php echo htmlspecialchars($row['skills']); ?></td>
                     <td class="border px-4 py-2"><?php echo htmlspecialchars($row['employment_status']); ?></td>
