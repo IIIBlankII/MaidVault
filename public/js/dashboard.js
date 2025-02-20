@@ -1,20 +1,22 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Function to toggle dropdown menus
+    
     function setupDropdown(buttonId, dropdownId) {
         const button = document.getElementById(buttonId);
         const dropdown = document.getElementById(dropdownId);
 
-        button.addEventListener("click", function () {
-            dropdown.classList.toggle("hidden");
-        });
+        if (button && dropdown) {
+            button.addEventListener("click", function () {
+                dropdown.classList.toggle("hidden");
+            });
+        }
     }
 
-    // Set up dropdowns
+    
     setupDropdown("maid-btn", "maid-dropdown");
     setupDropdown("client-btn", "client-dropdown");
     setupDropdown("document-btn", "document-dropdown");
 
-    // Function to dynamically load content
+    
     window.loadPage = function (page) {
         fetch(`../../views/dashboard/${page}.php`)
             .then(response => {
@@ -31,4 +33,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("main-content").innerHTML = "<h2 class='text-red-500 text-center mt-10'>⚠️ Page Not Found</h2>";
             });
     };
+
+    
+    if (typeof userRole !== "undefined" && userRole !== "admin") {
+        const addMaidOption = document.getElementById("add-maid-option");
+        const addClientOption = document.getElementById("add-client-option");
+
+        if (addMaidOption) addMaidOption.style.display = "none";
+        if (addClientOption) addClientOption.style.display = "none";
+    }
 });

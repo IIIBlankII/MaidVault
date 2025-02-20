@@ -15,6 +15,8 @@ class User {
             $stmt->fetch();
 
             if (password_verify($password, $db_password)) {
+                $_SESSION['user_id'] = $id;
+                $_SESSION['user_role'] = $role;
                 return [
                     "id" => $id,
                     "email" => $db_email,
@@ -29,13 +31,13 @@ class User {
     public static function register($firstName, $lastName, $email, $password) {
         global $conn;
 
-        // Hash password before storing
+        
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
         
         $stmt = $conn->prepare("INSERT INTO users (email, password, fname, lname) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("ssss", $email, $hashedPassword, $firstName, $lastName);
         
-        return $stmt->execute(); // Returns true if successful, false otherwise
+        return $stmt->execute(); 
     }
 }
 ?>

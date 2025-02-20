@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,7 +51,7 @@
                         <a href="#" onclick="loadPage('maids')" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
                             View Maids
                         </a>
-                        <a href="#" onclick="loadPage('add_maid')" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
+                        <a href="#" onclick="loadPage('add_maid')" id="add-maid-option" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
                             Add Maid
                         </a>
                     </div>
@@ -63,7 +67,7 @@
                         <a href="#" onclick="loadPage('clients')" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
                             View Clients
                         </a>
-                        <a href="#" onclick="loadPage('add_client')" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
+                        <a href="#" onclick="loadPage('add_client')" id="add-client-option" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
                             Add Client
                         </a>
                     </div>
@@ -101,6 +105,12 @@
         </div>
     </div>
 
-    <script src="../../public/js/dashboard.js"></script> <!-- JavaScript for Dropdowns & Page Loading -->
+    <script>
+        var userRole = "<?php echo $_SESSION['user_role'] ?? 'user'; ?>";
+    </script>
+
+ 
+    <script src="../../public/js/dashboard.js"></script>
+
 </body>
 </html>
