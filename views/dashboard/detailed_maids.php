@@ -1,5 +1,6 @@
 <?php
-require_once '../../includes/db_connect.php';
+session_start();
+require_once '../../models/Maid.php';
 
 if (!isset($_GET['maid_id'])) {
     echo "No maid specified.";
@@ -8,17 +9,8 @@ if (!isset($_GET['maid_id'])) {
 
 $maid_id = intval($_GET['maid_id']);
 
-$stmt = $conn->prepare("SELECT m.maid_id, m.fname, m.lname, m.date_of_birth, m.skills, m.employment_status,
-                               v.visa_type, v.visa_number, v.date_of_issue, v.expiration_date, v.visa_duration,
-                               v.work_permit_status, v.passport_number, v.issuing_country, v.immigration_reference_number,
-                               v.entry_date, v.exit_date
-                        FROM maid m
-                        LEFT JOIN visa_details v ON m.visa_details_id = v.id
-                        WHERE m.maid_id = ?");
-$stmt->bind_param("i", $maid_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$maid = $result->fetch_assoc();
+// Retrieve maid details using the Maid model method
+$maid = Maid::getMaidById($maid_id);
 
 if (!$maid) {
     echo "Maid not found.";
@@ -32,11 +24,20 @@ function calculate_age($dob) {
 }
 
 $age = calculate_age($maid['date_of_birth']);
+
+// Format the created_at and updated_at dates
+$createdAt = date('d-m-Y (h:i A)', strtotime($maid['created_at']));
+$updatedAt = date('d-m-Y (h:i A)', strtotime($maid['updated_at']));
 ?>
 
 <div class="p-4">
-    <!-- Back button -->
-    <button onclick="loadPage('maids')" class="bg-gray-500 text-white px-4 py-2 rounded-md mb-4">Back</button>
+    <!-- Top bar with Back and conditional Edit button -->
+    <div class="flex justify-between items-center mb-4">
+        <button onclick="loadPage('maids')" class="bg-gray-500 text-white px-4 py-2 rounded-md">Back</button>
+        <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+            <button onclick="loadPage('edit_maids.php?maid_id=<?php echo htmlspecialchars($maid['maid_id']); ?>')" class="bg-blue-500 text-white px-4 py-2 rounded-md">Edit</button>
+        <?php endif; ?>
+    </div>
     
     <h1 class="text-2xl font-semibold mb-4">Maid Details: <?php echo htmlspecialchars($maid['fname'] . " " . $maid['lname']); ?></h1>
     
@@ -69,5 +70,11 @@ $age = calculate_age($maid['date_of_birth']);
         <?php else: ?>
             <p>No visa details available.</p>
         <?php endif; ?>
+    </div>
+    
+    <!-- Created and Updated Dates Section -->
+    <div class="bg-white p-4 shadow-md rounded-md mt-4">
+        <p><strong>Created at:</strong> <?php echo $createdAt; ?></p>
+        <p><strong>Updated at:</strong> <?php echo $updatedAt; ?></p>
     </div>
 </div>

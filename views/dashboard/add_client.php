@@ -1,16 +1,47 @@
-<h2 class="text-2xl font-semibold mb-4">Add Client</h2>
-<form id="add-client-form" class="bg-white p-4 shadow-md rounded-md">
-    <div class="mb-4">
-        <label class="block text-gray-700">Name:</label>
-        <input type="text" id="client-name" class="w-full px-3 py-2 border rounded-md" required>
+<?php
+// This view file contains only the form markup.
+// Form action points to the client controller (e.g., addClientController.php)
+?>
+<h1 class="text-2xl font-semibold mb-4">Add New Client</h1>
+<form id="addClientForm" method="POST" action="../../controllers/addClientController.php" class="space-y-6">
+    <!-- Client Details Section -->
+    <div class="bg-white p-4 shadow-md rounded-md">
+        <h2 class="text-xl font-semibold mb-4">Client Details</h2>
+        <div class="mb-4">
+            <label class="block text-gray-700">First Name</label>
+            <input type="text" name="fname" required class="w-full px-3 py-2 border rounded-md">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700">Last Name</label>
+            <input type="text" name="lname" required class="w-full px-3 py-2 border rounded-md">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700">Address</label>
+            <textarea name="address" required class="w-full px-3 py-2 border rounded-md"></textarea>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700">Contact Number</label>
+            <input type="text" name="contact_number" required class="w-full px-3 py-2 border rounded-md">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700">Email</label>
+            <input type="email" name="email" required class="w-full px-3 py-2 border rounded-md">
+        </div>
     </div>
-    <div class="mb-4">
-        <label class="block text-gray-700">Email:</label>
-        <input type="email" id="client-email" class="w-full px-3 py-2 border rounded-md" required>
+
+    <!-- Additional Information Section -->
+    <div class="bg-white p-4 shadow-md rounded-md border border-gray-200">
+        <h2 class="text-xl font-semibold mb-4">Additional Information</h2>
+        <div class="mb-4">
+            <label class="block text-gray-700">Company Name</label>
+            <input type="text" name="company_name" class="w-full px-3 py-2 border rounded-md">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700">Notes</label>
+            <textarea name="notes" class="w-full px-3 py-2 border rounded-md"></textarea>
+        </div>
     </div>
-    <div class="mb-4">
-        <label class="block text-gray-700">Phone:</label>
-        <input type="text" id="client-phone" class="w-full px-3 py-2 border rounded-md" required>
-    </div>
+
+    <!-- Single Submit Button -->
     <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">Add Client</button>
 </form>
