@@ -9,6 +9,7 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MaidVault Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body class="bg-gray-100">
@@ -30,18 +31,15 @@ session_start();
     <div class="flex h-screen">
         <!-- Sidebar Navigation -->
         <div class="bg-white w-64 shadow-md p-4">
-            <!-- Search Bar -->
             <div class="mb-4">
                 <input type="text" placeholder="Search..." class="w-full px-3 py-2 border rounded-md">
             </div>
 
-            <!-- Navigation Links -->
             <nav class="space-y-4">
-                <a href="#" onclick="loadPage('dashboard')" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
+                <a href="#" onclick="loadPage('maindash')" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
                     <i class="fa-solid fa-home mr-2"></i> Dashboard
                 </a>
 
-                <!-- Maid Dropdown -->
                 <div>
                     <button id="maid-btn" class="flex justify-between w-full py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
                         <span><i class="fa-solid fa-users mr-2"></i> Maids</span>
@@ -57,7 +55,6 @@ session_start();
                     </div>
                 </div>
 
-                <!-- Client Dropdown -->
                 <div>
                     <button id="client-btn" class="flex justify-between w-full py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
                         <span><i class="fa-solid fa-briefcase mr-2"></i> Clients</span>
@@ -73,11 +70,9 @@ session_start();
                     </div>
                 </div>
 
-            
-
                 <a href="#" onclick="loadPage('calendar')" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
-    <i class="fa-solid fa-calendar-alt mr-2"></i> Calendar & Schedule
-</a>
+                    <i class="fa-solid fa-calendar-alt mr-2"></i> Calendar & Schedule
+                </a>
 
                 <a href="#" onclick="loadPage('analytics')" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
                     <i class="fa-solid fa-chart-line mr-2"></i> Analytics
@@ -96,8 +91,7 @@ session_start();
         var userRole = "<?php echo $_SESSION['user_role'] ?? 'user'; ?>";
     </script>
 
- 
     <script src="../../public/js/dashboard.js"></script>
-
+    
 </body>
 </html>
