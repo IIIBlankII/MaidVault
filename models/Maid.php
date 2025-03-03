@@ -1,7 +1,6 @@
 <?php
 require_once dirname(__DIR__) . '/includes/db_connect.php';
 
-
 class Maid {
     public static function addMaid($fname, $lname, $date_of_birth, $skills, $employment_status) {
         global $conn;
