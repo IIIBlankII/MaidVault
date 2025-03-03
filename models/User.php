@@ -65,5 +65,38 @@ class User {
         $stmt->close();
         return $result;
     }
+
+    public static function setResetCode($email, $resetCode, $expires) {
+        global $conn;
+        $stmt = $conn->prepare("UPDATE users SET reset_code = ?, reset_expires = ? WHERE email = ?");
+        $stmt->bind_param("sss", $resetCode, $expires, $email);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
+    }
+    
+    public static function getUserByResetCode($resetCode) {
+        global $conn;
+        $stmt = $conn->prepare("SELECT id, email, reset_code, reset_expires FROM users WHERE reset_code = ?");
+        $stmt->bind_param("s", $resetCode);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+        $stmt->close();
+        return $user;
+    }
+    
+    public static function updatePassword($email, $newPassword) {
+        global $conn;
+        $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
+        // Update password and clear reset code and expiry
+        $stmt = $conn->prepare("UPDATE users SET password = ?, reset_code = NULL, reset_expires = NULL WHERE email = ?");
+        $stmt->bind_param("ss", $hashedPassword, $email);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
+    }
+    
+    
 }
 ?>
