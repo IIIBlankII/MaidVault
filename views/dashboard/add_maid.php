@@ -2,7 +2,7 @@
 // This view file contains only the form markup.
 // Form action points to the combined controller.
 ?>
-<h1 class="text-2xl font-semibold mb-4">Add New Maid</h1>
+<h1 class="text-2xl text-neutral-100 font-semibold mb-4">Add New Maid</h1>
 <form id="addMaidForm" method="POST" action="../../controllers/addMaidAndVisaController.php" class="space-y-6">
     <!-- Maid Details Section -->
     <div class="bg-white p-4 shadow-md rounded-md">

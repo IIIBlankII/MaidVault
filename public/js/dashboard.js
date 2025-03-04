@@ -15,6 +15,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const page = this.getAttribute("onclick").match(/'([^']+)'/)[1];
             loadPage(page);
         });
+
+        
     });
 
     // Function to load PHP pages dynamically
@@ -49,14 +51,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     datasets: [{
                         label: 'Number of Maids',
                         data: [10, 20, 30, 40, 50],
-                        borderColor: '#4F46E5',
-                        borderWidth: 2,
+                        borderColor: '#a20ec6',
+                        borderWidth: 3,
                         fill: false
                     }]
                 }
             });
         }
-
+    
         const clientActivity = document.getElementById('clientActivityChart');
         if (clientActivity) {
             new Chart(clientActivity.getContext('2d'), {
@@ -65,12 +67,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     labels: ['Active', 'Inactive'],
                     datasets: [{
                         data: [70, 30],
-                        backgroundColor: ['#6366F1', '#CBD5E1']
+                        backgroundColor: ['#964cbf', '#4B5563']
                     }]
                 }
             });
         }
-
+    
         const salesOverview = document.getElementById('salesOverviewChart');
         if (salesOverview) {
             new Chart(salesOverview.getContext('2d'), {
@@ -80,11 +82,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     datasets: [{
                         label: 'Total Sales',
                         data: [1000, 1200, 1500, 1700, 2000],
-                        backgroundColor: '#4F46E5'
+                        backgroundColor: '#964cbf'
                     }]
                 }
             });
         }
+    
 
         // Analytics charts (added for analytics.php)
         const growthChart = document.getElementById('growthChart');
@@ -96,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     datasets: [{
                         label: 'Growth Analysis',
                         data: [15, 25, 35, 45, 55],
-                        borderColor: '#A78BFA',
+                        borderColor: '#964cbf',
                         borderWidth: 2,
                         fill: false
                     }]
@@ -112,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     labels: ['Active', 'Inactive'],
                     datasets: [{
                         data: [80, 20],
-                        backgroundColor: ['#A78BFA', '#4B5563']
+                        backgroundColor: ['#964cbf', '#4B5563']
                     }]
                 }
             });

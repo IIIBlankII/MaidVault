@@ -17,7 +17,7 @@
 ?>
 
 <div id="calendar-page" class="p-6">
-    <h2 class="text-2xl font-semibold mb-4">Calendar & Schedule</h2>
+    <h2 class="text-2xl text-neutral-100 font-semibold mb-4">Calendar & Schedule</h2>
     <div class="bg-white p-4 shadow-md rounded-lg">
         <h3 class="text-lg font-semibold text-center"> <?php echo date('F Y'); ?> </h3>
         <div class="grid grid-cols-7 gap-1 text-center mt-4">

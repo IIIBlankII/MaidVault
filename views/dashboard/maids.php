@@ -24,7 +24,7 @@ function calculate_age($dob) {
     }
 </style>
 
-<h1 class="text-2xl font-semibold mb-4">Maid List</h1>
+<h1 class="text-2xl text-neutral-100 font-semibold mb-4">Maid List</h1>
 <table class="w-full border-collapse border">
     <thead class="bg-gray-200">
         <tr>
