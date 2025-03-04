@@ -150,3 +150,7 @@ body {
   margin-top: 20px;
   font-size: 12px;
 }
+
+.calendar-day.selected {
+  background-color: #dbeafe; /* Light blue background */
+}

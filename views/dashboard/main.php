@@ -10,6 +10,7 @@ session_start();
   <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="../../public/css/main.css">
 </head>
 <body class="bg-gray-100">
 
@@ -118,5 +119,8 @@ session_start();
   </script>
   
   <script src="../../public/js/dashboard.js"></script>
+  <script src="../../public/js/charts.js"></script>
+  <script src="../../public/js/calendar.js"></script>
+
 </body>
 </html>
