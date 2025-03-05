@@ -17,6 +17,32 @@ document.addEventListener("DOMContentLoaded", function () {
             loadPage(page);
         });
     });
+
+    document.getElementById("main-content").addEventListener("submit", function(e) {
+        // Check if the submitted form is the event form (using a CSS selector)
+        if (e.target && e.target.matches("#event-form form")) {
+          console.log("Delegated form listener triggered");
+          e.preventDefault(); // Prevent the default form submission
+      
+          const formData = new FormData(e.target);
+          fetch('../../controllers/eventController.php', {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.status === 'success') {
+              loadPage('calendar'); // Reload the calendar dynamically
+            } else {
+              alert('Error: ' + data.message);
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+        }
+      });
+      
 });
 
 // Function to load PHP pages dynamically
@@ -36,7 +62,7 @@ function loadPage(page) {
             if (page === "calendar") {
                 if (typeof initializeCalendar === "function") {
                   initializeCalendar();
-                }
+                }   
             }
             
             // Only reinitialize charts if analytics or maindash are loaded (fix the condition)

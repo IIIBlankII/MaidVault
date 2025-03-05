@@ -8,7 +8,7 @@ session_start();
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MaidVault Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <link rel="stylesheet" href="../../public/css/main.css">
 </head>
@@ -39,58 +39,62 @@ session_start();
     </div>
   </div>
 
-    <!-- Dashboard Layout -->
-    <div class="flex h-screen">
-        <!-- Sidebar Navigation -->
-        <div class="bg-white w-64 shadow-md p-4">
-            <div class="mb-4">
-                <input type="text" placeholder="Search..." class="w-full px-3 py-2 border rounded-md">
-            </div>
+  <!-- Dashboard Layout -->
+  <div class="flex h-screen">
+    <!-- Sidebar Navigation -->
+    <div class="bg-white w-64 shadow-md p-4">
+      <div class="mb-4">
+        <input type="text" placeholder="Search..." class="w-full px-3 py-2 border rounded-md">
+      </div>
 
-            <nav class="space-y-4">
-                <a href="#" onclick="loadPage('maindash')" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
-                    <i class="fa-solid fa-home mr-2"></i> Dashboard
-                </a>
+      <nav class="space-y-4">
+        <a href="#" onclick="loadPage('maindash')" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
+          <i class="fa-solid fa-home mr-2"></i> Dashboard
+        </a>
 
-                <div>
-                    <button id="maid-btn" class="flex justify-between w-full py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
-                        <span><i class="fa-solid fa-users mr-2"></i> Maids</span>
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </button>
-                    <div id="maid-dropdown" class="hidden pl-6">
-                        <a href="#" onclick="loadPage('maids')" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
-                            View Maids
-                        </a>
-                        <a href="#" onclick="loadPage('add_maid')" id="add-maid-option" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
-                            Add Maid
-                        </a>
-                    </div>
-                </div>
-
-                <div>
-                    <button id="client-btn" class="flex justify-between w-full py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
-                        <span><i class="fa-solid fa-briefcase mr-2"></i> Clients</span>
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </button>
-                    <div id="client-dropdown" class="hidden pl-6">
-                        <a href="#" onclick="loadPage('clients')" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
-                            View Clients
-                        </a>
-                        <a href="#" onclick="loadPage('add_client')" id="add-client-option" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
-                            Add Client
-                        </a>
-                    </div>
-                </div>
-
-                <a href="#" onclick="loadPage('calendar')" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
-                    <i class="fa-solid fa-calendar-alt mr-2"></i> Calendar & Schedule
-                </a>
-
-                <a href="#" onclick="loadPage('analytics')" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
-                    <i class="fa-solid fa-chart-line mr-2"></i> Analytics
-                </a>
-            </nav>
+        <div>
+          <button id="maid-btn" class="flex justify-between w-full py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
+            <span><i class="fa-solid fa-users mr-2"></i> Maids</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div id="maid-dropdown" class="hidden pl-6">
+            <a href="#" onclick="loadPage('maids')" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
+              View Maids
+            </a>
+            <?php if(isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+            <a href="#" onclick="loadPage('add_maid')" id="add-maid-option" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
+              Add Maid
+            </a>
+            <?php endif; ?>
+          </div>
         </div>
+
+        <div>
+          <button id="client-btn" class="flex justify-between w-full py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
+            <span><i class="fa-solid fa-briefcase mr-2"></i> Clients</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div id="client-dropdown" class="hidden pl-6">
+            <a href="#" onclick="loadPage('clients')" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
+              View Clients
+            </a>
+            <?php if(isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+            <a href="#" onclick="loadPage('add_client')" id="add-client-option" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
+              Add Client
+            </a>
+            <?php endif; ?>
+          </div>
+        </div>
+
+        <a href="#" onclick="loadPage('calendar')" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
+          <i class="fa-solid fa-calendar-alt mr-2"></i> Calendar & Schedule
+        </a>
+
+        <a href="#" onclick="loadPage('analytics')" class="block py-2 px-4 text-gray-700 hover:bg-blue-100 rounded-md">
+          <i class="fa-solid fa-chart-line mr-2"></i> Analytics
+        </a>
+      </nav>
+    </div>
 
     <!-- Main Content Area -->
     <div id="main-content" class="flex-1 p-6">
@@ -118,6 +122,22 @@ session_start();
     });
   </script>
   
+  <script>
+    // Fetch events from the endpoint and store them in window.events
+    fetch('../../controllers/getEvents.php')
+      .then(response => response.json())
+      .then(data => {
+        window.events = data;
+        console.log("Loaded events:", window.events);
+        // Optionally, if you want to auto-load the calendar after events are ready:
+        // loadPage('calendar');
+      })
+      .catch(error => {
+        console.error("Error fetching events:", error);
+        window.events = {}; // Fallback to empty object
+      });
+  </script>
+
   <script src="../../public/js/dashboard.js"></script>
   <script src="../../public/js/charts.js"></script>
   <script src="../../public/js/calendar.js"></script>
