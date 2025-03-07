@@ -32,15 +32,23 @@ session_start();
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: -1;
-  background: linear-gradient(-45deg, #4f46e5, #818cf8, #4338ca, #6366f1);
-  background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
-  opacity: 0.3;
+  z-index: 0;
+  background: linear-gradient(-75deg,rgb(6, 6, 6),rgb(54, 52, 54),rgb(37, 35, 39),rgb(73, 73, 74)); /* Test colors */
+  background-size: 800% 800%;
+  animation: gradient 10s linear infinite; /* Faster animation for testing */
+  opacity: 0.8; /* Full opacity for testing */
 }
+
+.shadow{
+  text-shadow:
+    1px 1px 2px rgba(0, 0, 0, 0.4),  /* subtle drop shadow */
+    0 0 5px rgba(113, 21, 189, 0.7); 
+}
+
   </style>
 </head>
-<body class="bg-neutral-700">
+
+<body class="">
 
   <!-- Top Navigation Bar -->
   <div class="bg-purple-300 shadow-md flex justify-between items-center px-6 py-4 relative">
@@ -121,15 +129,15 @@ session_start();
         </div>
 
   <!-- Main Content Area -->
-<div id="main-content" class="flex-1 p-6 overflow-auto relative"> <!-- Added relative class -->
-  <!-- Animated Background -->
-  <div class="animated-bg rounded-lg"></div>
+<div id="main-content" class="animated-bg  flex-1 p-6 overflow-auto relative "> <!-- Added relative class -->
+
+
   
   <!-- Existing content -->
   <div class="relative z-10"> <!-- Added z-10 to bring content forward -->
-    <h1 class="text-2xl font-semibold text-white">Welcome to MaidVault Dashboard</h1>
-    <p class="text-neutral-200">Manage maids, clients, and reports efficiently.</p>
-  </div>
+    <h1 class="text-2xl font-semibold text-white shadow">Welcome to MaidVault Dashboard</h1>
+    <p class="text-neutral-200 shadow">Manage maids, clients, and reports efficiently.</p>
+</div>
 </div>
 
   <script>

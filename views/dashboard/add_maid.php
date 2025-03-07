@@ -83,5 +83,6 @@
     </div>
 
     <!-- Single Submit Button for Both Sections -->
-    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">Add Maid</button>
-</form>
+    <button type="submit" class="bg-purple-500 hover:bg-purple-700 text-white px-4 py-2 rounded-md transition duration-200 ease-in-out transform hover:scale-105 hover:shadow-lg">
+  Add Maid
+</button></form>

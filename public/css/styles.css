@@ -16,7 +16,7 @@ body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 30px;
   width: 400px;
-  border-radius: 2px;
+  border-radius: 30px;
   text-align: center;
 }
 
@@ -112,7 +112,7 @@ body {
 
 /* Links */
 .login-container a {
-  color: #007BFF;
+  color: #6f00be;
   text-decoration: none;
   font-size: 12px;
 }
@@ -122,22 +122,23 @@ body {
 }
 
 /* Button */
-.login-container button {
-  background-color: #007bffd5;
+.signup-button {
+  background-color:hwb(271 5% 22% / 0.421);
   color: #fff;
   padding: 10px;
-  margin:10px;
+  margin: 10px;
   border: none;
-  border-radius: 0px;
+  border-radius: 0;
   font-size: 16px;
   width: 95%;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.login-container button:hover {
-  background-color: #0056b3;
+.signup-button:hover {
+  background-color: #965eb6;
 }
+
 
 /* Separator */
 .separator {
