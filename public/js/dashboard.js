@@ -17,6 +17,20 @@ document.addEventListener("DOMContentLoaded", function () {
             loadPage(page);
         });
     });
+    
+    function refreshEventsAndCalendar() {
+      fetch('../../controllers/eventController.php', {
+        method: 'POST'
+      })
+      .then(response => response.json())
+      .then(data => {
+        window.events = data; 
+        loadPage('calendar');
+      })
+      .catch(error => {
+        console.error("Error refreshing events:", error);
+      });
+    }
 
     document.getElementById("main-content").addEventListener("submit", function(e) {
         // Check if the submitted form is the event form (using a CSS selector)
@@ -32,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
           .then(response => response.json())
           .then(data => {
             if (data.status === 'success') {
-              loadPage('calendar'); // Reload the calendar dynamically
+              refreshEventsAndCalendar()
             } else {
               alert('Error: ' + data.message);
             }

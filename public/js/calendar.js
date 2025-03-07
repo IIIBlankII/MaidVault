@@ -122,8 +122,10 @@ function initializeCalendar() {
         const li = document.createElement('li');
         // Map each event title to a clickable anchor and join them with commas.
         const clickableEvents = eventData[dateStr]
-          .map(eventTitle => `<a href="#" class="event-link" data-date="${dateStr}">${eventTitle}</a>`)
-          .join(', ');
+        .map(ev => `<a href="#" class="event-link" data-date="${dateStr}" data-id="${ev.id}" data-title="${ev.title}">${ev.title}</a>`)
+        .join(', ');
+
+
         li.innerHTML = `<span class="font-semibold">${dateStr}</span>: ${clickableEvents}`;
         list.appendChild(li);
       });
@@ -138,15 +140,29 @@ function initializeCalendar() {
     if (eventData.hasOwnProperty(dateStr)) {
       // Build an unordered list of events
       let output = '<ul class="list-disc pl-5">';
-      eventData[dateStr].forEach(event => {
-        // Wrap each event in an anchor tag with a class and a data attribute if needed
-        output += `<li><a href="#" class="event-link" data-date="${dateStr}">${event}</a></li>`;
+      eventData[dateStr].forEach(ev => {
+        // Wrap each event in an anchor tag with a data-date and data-title attribute
+        output += `<li><a href="#" class="event-link" data-date="${dateStr}" data-id="${ev.id}" data-title="${ev.title}">${ev.title}</a></li>`;
       });
       output += '</ul>';
       eventsDisplayDiv.innerHTML = output;
     } else {
       eventsDisplayDiv.innerHTML = `<p class="text-gray-500">No events on this day</p>`;
     }
+  }
+  
+  function refreshEventsAndCalendar() {
+    fetch('../../controllers/eventController.php', {
+      method: 'POST'
+    })
+    .then(response => response.json())
+    .then(data => {
+      window.events = data; 
+      loadPage('calendar');
+    })
+    .catch(error => {
+      console.error("Error refreshing events:", error);
+    });
   }
   
 
@@ -211,6 +227,77 @@ function initializeCalendar() {
       eventsDisplayDiv.classList.remove('hidden');
     }
   });
+
+  // Ensure this is added after the calendar is loaded and eventData is available
+  document.getElementById('events-display').addEventListener('click', function(e) {
+    if (e.target && e.target.matches('.event-link')) {
+      e.preventDefault();
+      // Get the event date and title from data attributes
+      const eventDate = e.target.getAttribute('data-date');
+      const eventTitle = e.target.getAttribute('data-title');
+      const eventId = e.target.getAttribute('data-id');
+      
+      // Prepare form data for details request
+      const formData = new FormData();
+      formData.append('event_date', eventDate);
+      formData.append('event_title', eventTitle);
+      
+      // Request event details
+      fetch('../../controllers/getEventDetails.php', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log("Response from getEventDetails:", data);
+        if (data.status === 'success') {
+          const details = data.data;
+          // Update events-display with the event title, description, and a delete button
+          document.getElementById('events-display').innerHTML = `
+            <h3 class="font-bold text-xl mb-2">${details.title}</h3>
+            <p>${details.description}</p>
+            <button id="delete-event-btn" class="mt-4 p-2 bg-red-500 text-white rounded">Delete Event</button>
+          `;
+          
+          // Attach click listener to the delete button
+          document.getElementById('delete-event-btn').addEventListener('click', function(ev) {
+            ev.preventDefault();
+            if (confirm("Are you sure you want to delete this event?")) {
+              const delFormData = new FormData();
+              delFormData.append('action', 'delete');
+              delFormData.append('event_date', eventDate);
+              delFormData.append('event_title', eventTitle);
+              delFormData.append('event_id', eventId);
+              
+              fetch('../../controllers/eventController.php', {
+                method: 'POST',
+                body: delFormData
+              })
+              .then(response => response.json())
+              .then(delData => {
+                if (delData.status === 'success') {
+                  alert('Event deleted successfully.');
+                  // Reload the calendar (or the events list)
+                  refreshEventsAndCalendar()
+                } else {
+                  alert('Error: ' + delData.message);
+                }
+              })
+              .catch(error => {
+                console.error('Error deleting event:', error);
+              });
+            }
+          });
+        } else {
+          alert('Error: ' + data.message);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching event details:', error);
+      });
+    }
+  });
+
 
   // Generate the initial calendar when the page loads
   generateCalendar(currentMonth, currentYear);

@@ -25,7 +25,7 @@ class Event {
         global $conn;
         
         // Format event_date as 'YYYY-MM-DD'
-        $stmt = $conn->prepare("SELECT DATE_FORMAT(event_date, '%Y-%m-%d') as event_date, title FROM events WHERE event_type = 'global' OR (event_type = 'local' AND user_id = ?)");
+        $stmt = $conn->prepare("SELECT id, DATE_FORMAT(event_date, '%Y-%m-%d') as event_date, title, description FROM events WHERE event_type = 'global' OR (event_type = 'local' AND user_id = ?)");
         $stmt->bind_param("i", $user_id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -36,7 +36,12 @@ class Event {
             if (!isset($events[$date])) {
                 $events[$date] = [];
             }
-            $events[$date][] = $row['title'];
+            // Instead of just appending the title, store an associative array with id, title, and description
+            $events[$date][] = [
+                'id'          => $row['id'],
+                'title'       => $row['title'],
+                'description' => $row['description']
+            ];
         }
         $stmt->close();
         return $events;
@@ -60,6 +65,19 @@ class Event {
         $eventDetails = $result->fetch_assoc();
         $stmt->close();
         return $eventDetails;
+    }
+    
+    public static function deleteEvent($event_id, $user_id) {
+        global $conn;
+        $stmt = $conn->prepare("
+            DELETE FROM events 
+            WHERE id = ? 
+              AND (event_type = 'global' OR (event_type = 'local' AND user_id = ?))
+        ");
+        $stmt->bind_param("ii", $event_id, $user_id);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
     }
     
 }
