@@ -11,11 +11,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $skills = $_POST['skills'];
     $employment_status = $_POST['employment_status'];
 
-    
+    // Add maid details to the database
     $maid_id = Maid::addMaid($fname, $lname, $date_of_birth, $skills, $employment_status);
 
     if ($maid_id) {
-        
+        // Visa details
         $visa_type = $_POST['visa_type'];
         $visa_number = $_POST['visa_number'];
         $date_of_issue = $_POST['date_of_issue'];
@@ -28,14 +28,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $entry_date = $_POST['entry_date'];
         $exit_date = $_POST['exit_date'];
 
-        
-        $visaAdded = Visa::addVisaDetails($maid_id, $visa_type, $visa_number, $date_of_issue, $expiration_date, $visa_duration, $work_permit_status, $passport_number, $issuing_country, $immigration_reference_number, $entry_date, $exit_date);
+        // Handle Visa Image Upload
+        $visa_image_path = null; // Default value (no image uploaded)
+
+        if (isset($_FILES['visa_image']) && $_FILES['visa_image']['error'] == 0) {
+            $target_dir = "../uploads/visa_images/"; // Folder where images will be stored
+            $file_name = time() . "_" . basename($_FILES["visa_image"]["name"]); // Unique file name
+            $target_file = $target_dir . $file_name;
+
+            // Check if directory exists, if not, create it
+            if (!is_dir($target_dir)) {
+                mkdir($target_dir, 0777, true);
+            }
+
+            // Move uploaded file to target directory
+            if (move_uploaded_file($_FILES["visa_image"]["tmp_name"], $target_file)) {
+                $visa_image_path = "uploads/visa_images/" . $file_name; // Store relative path
+            }
+        }
+
+        // Add visa details with image path
+        $visaAdded = Visa::addVisaDetails($maid_id, $visa_type, $visa_number, $date_of_issue, $expiration_date, $visa_duration, $work_permit_status, $passport_number, $issuing_country, $immigration_reference_number, $entry_date, $exit_date, $visa_image);
 
         if ($visaAdded) {
-            
             $visa_id = $conn->insert_id;
 
-            
+            // Link visa details to the maid
             $stmt = $conn->prepare("UPDATE maid SET visa_details_id = ? WHERE maid_id = ?");
             $stmt->bind_param("ii", $visa_id, $maid_id);
             $stmt->execute();

@@ -72,6 +72,14 @@ $updatedAt = date('d-m-Y (h:i A)', strtotime($maid['updated_at']));
         <?php endif; ?>
     </div>
     
+    <!-- Visa Image Section -->
+    <?php if (!empty($maid['visa_image'])): ?>
+    <div class="bg-white p-4 shadow-md rounded-md mt-4">
+        <h2 class="text-xl font-semibold mb-2">Visa Image</h2>
+        <img src="../../<?php echo htmlspecialchars($maid['visa_image']); ?>" alt="Visa Image" class="w-40 h-auto border rounded-md">
+    </div>
+    <?php endif; ?>
+    
     <!-- Created and Updated Dates Section -->
     <div class="bg-white p-4 shadow-md rounded-md mt-4">
         <p><strong>Created at:</strong> <?php echo $createdAt; ?></p>

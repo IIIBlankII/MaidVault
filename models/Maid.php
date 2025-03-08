@@ -50,7 +50,7 @@ class Maid {
         $stmt = $conn->prepare("SELECT m.maid_id, m.fname, m.lname, m.date_of_birth, m.skills, m.employment_status, m.created_at, m.updated_at,
                                        v.visa_type, v.visa_number, v.date_of_issue, v.expiration_date, v.visa_duration,
                                        v.work_permit_status, v.passport_number, v.issuing_country, v.immigration_reference_number,
-                                       v.entry_date, v.exit_date
+                                       v.entry_date, v.exit_date, v.visa_image
                                 FROM maid m
                                 LEFT JOIN visa_details v ON m.visa_details_id = v.id
                                 WHERE m.maid_id = ?");

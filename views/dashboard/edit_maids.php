@@ -12,7 +12,7 @@ $maid_id = intval($_GET['maid_id']);
 $stmt = $conn->prepare("SELECT m.maid_id, m.fname, m.lname, m.date_of_birth, m.skills, m.employment_status,
                                v.visa_type, v.visa_number, v.date_of_issue, v.expiration_date, v.visa_duration,
                                v.work_permit_status, v.passport_number, v.issuing_country, v.immigration_reference_number,
-                               v.entry_date, v.exit_date
+                               v.entry_date, v.exit_date, v.visa_image
                         FROM maid m
                         LEFT JOIN visa_details v ON m.visa_details_id = v.id
                         WHERE m.maid_id = ?");
@@ -34,7 +34,8 @@ if (!$maid) {
     </div>
     
     <h1 class="text-2xl font-semibold mb-4">Edit Maid</h1>
-    <form id="editMaidForm" method="POST" action="../../controllers/updateMaidAndVisaController.php" class="space-y-6">
+    <!-- Added enctype for file uploads -->
+    <form id="editMaidForm" method="POST" action="../../controllers/updateMaidAndVisaController.php" class="space-y-6" enctype="multipart/form-data">
         <!-- Hidden field to pass maid_id -->
         <input type="hidden" name="maid_id" value="<?php echo htmlspecialchars($maid['maid_id']); ?>">
         
@@ -113,6 +114,16 @@ if (!$maid) {
             <div class="mb-4">
                 <label class="block text-gray-700">Exit Date</label>
                 <input type="date" name="exit_date" value="<?php echo htmlspecialchars($maid['exit_date']); ?>" required class="w-full px-3 py-2 border rounded-md">
+            </div>
+             <!-- Added block for visa image -->
+             <div class="mb-4">
+                <label class="block text-gray-700">Visa Image</label>
+                <?php if (!empty($maid['visa_image'])): ?>
+                    <div class="mb-2">
+                        <img src="../../<?php echo htmlspecialchars($maid['visa_image']); ?>" alt="Visa Image" class="w-40 h-auto border rounded-md">
+                    </div>
+                <?php endif; ?>
+                <input type="file" name="visa_image" accept="image/*" class="w-full px-3 py-2 border rounded-md">
             </div>
         </div>
     
