@@ -9,8 +9,8 @@ if (!isset($_GET['maid_id'])) {
 
 $maid_id = intval($_GET['maid_id']);
 
-// Updated SELECT query to include nationality, passport_image and work_permit_image
-$stmt = $conn->prepare("SELECT m.maid_id, m.fname, m.lname, m.date_of_birth, m.skills, m.employment_status, m.nationality,
+// Updated SELECT query to include language, nationality, passport_image and work_permit_image
+$stmt = $conn->prepare("SELECT m.maid_id, m.fname, m.lname, m.date_of_birth, m.language, m.skills, m.employment_status, m.nationality,
                                v.visa_type, v.visa_number, v.date_of_issue, v.expiration_date, v.visa_duration,
                                v.work_permit_status, v.passport_number, v.issuing_country, v.immigration_reference_number,
                                v.entry_date, v.exit_date, v.visa_image, v.passport_image, v.work_permit_image
@@ -51,7 +51,7 @@ if (!$maid) {
                 <label class="block text-gray-700">Last Name</label>
                 <input type="text" name="lname" value="<?php echo htmlspecialchars($maid['lname']); ?>" required class="w-full px-3 py-2 border rounded-md">
             </div>
-            <!-- New Nationality Field -->
+            <!-- Nationality Field -->
             <div class="mb-4">
                 <label class="block text-gray-700">Nationality</label>
                 <input type="text" name="nationality" value="<?php echo htmlspecialchars($maid['nationality']); ?>" required class="w-full px-3 py-2 border rounded-md">
@@ -59,6 +59,11 @@ if (!$maid) {
             <div class="mb-4">
                 <label class="block text-gray-700">Date of Birth</label>
                 <input type="date" name="date_of_birth" value="<?php echo htmlspecialchars($maid['date_of_birth']); ?>" required class="w-full px-3 py-2 border rounded-md">
+            </div>
+            <!-- New Language Field Below Date of Birth -->
+            <div class="mb-4">
+                <label class="block text-gray-700">Language</label>
+                <input type="text" name="language" value="<?php echo htmlspecialchars($maid['language']); ?>" required class="w-full px-3 py-2 border rounded-md">
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700">Skills</label>

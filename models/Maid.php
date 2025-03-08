@@ -2,11 +2,11 @@
 require_once dirname(__DIR__) . '/includes/db_connect.php';
 
 class Maid {
-    // Now accepts nationality as an additional parameter
-    public static function addMaid($fname, $lname, $date_of_birth, $skills, $employment_status, $nationality) {
+    // Now accepts nationality and language as additional parameters
+    public static function addMaid($fname, $lname, $date_of_birth, $skills, $employment_status, $nationality, $language) {
         global $conn;
-        $stmt = $conn->prepare("INSERT INTO maid (fname, lname, date_of_birth, skills, employment_status, nationality) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssss", $fname, $lname, $date_of_birth, $skills, $employment_status, $nationality);
+        $stmt = $conn->prepare("INSERT INTO maid (fname, lname, date_of_birth, skills, employment_status, nationality, language) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssss", $fname, $lname, $date_of_birth, $skills, $employment_status, $nationality, $language);
         if ($stmt->execute()) {
             $id = $conn->insert_id;
             $stmt->close();
@@ -17,11 +17,11 @@ class Maid {
         }
     }
 
-    // Updated to include nationality in the update
-    public static function updateMaid($maid_id, $fname, $lname, $date_of_birth, $skills, $employment_status, $nationality) {
+    // Updated to include nationality and language in the update
+    public static function updateMaid($maid_id, $fname, $lname, $date_of_birth, $skills, $employment_status, $nationality, $language) {
         global $conn;
-        $stmt = $conn->prepare("UPDATE maid SET fname = ?, lname = ?, date_of_birth = ?, skills = ?, employment_status = ?, nationality = ? WHERE maid_id = ?");
-        $stmt->bind_param("ssssssi", $fname, $lname, $date_of_birth, $skills, $employment_status, $nationality, $maid_id);
+        $stmt = $conn->prepare("UPDATE maid SET fname = ?, lname = ?, date_of_birth = ?, skills = ?, employment_status = ?, nationality = ?, language = ? WHERE maid_id = ?");
+        $stmt->bind_param("sssssssi", $fname, $lname, $date_of_birth, $skills, $employment_status, $nationality, $language, $maid_id);
         $result = $stmt->execute();
         $stmt->close();
         return $result;
@@ -47,10 +47,10 @@ class Maid {
         return $result;
     }
 
-    // Updated SELECT query to include nationality, passport_image, and work_permit_image
+    // Updated SELECT query to include nationality, language, passport_image, and work_permit_image
     public static function getMaidById($maid_id) {
         global $conn;
-        $stmt = $conn->prepare("SELECT m.maid_id, m.fname, m.lname, m.date_of_birth, m.skills, m.employment_status, m.nationality, m.created_at, m.updated_at,
+        $stmt = $conn->prepare("SELECT m.maid_id, m.fname, m.lname, m.date_of_birth, m.language, m.skills, m.employment_status, m.nationality, m.created_at, m.updated_at,
                                        v.visa_type, v.visa_number, v.date_of_issue, v.expiration_date, v.visa_duration,
                                        v.work_permit_status, v.passport_number, v.issuing_country, v.immigration_reference_number,
                                        v.entry_date, v.exit_date, v.visa_image, v.passport_image, v.work_permit_image

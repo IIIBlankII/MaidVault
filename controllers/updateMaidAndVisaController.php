@@ -12,7 +12,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $date_of_birth = $_POST['date_of_birth'];
     $skills = $_POST['skills'];
     $employment_status = $_POST['employment_status'];
-    $nationality = $_POST['nationality']; // New field for nationality
+    $nationality = $_POST['nationality']; // Field for nationality
+    $language = $_POST['language'];       // New field for language
 
     // Retrieve visa fields from POST data
     $visa_type = $_POST['visa_type'];
@@ -27,6 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $entry_date = $_POST['entry_date'];
     $exit_date = $_POST['exit_date'];
 
+    // Handle Visa Image Upload
     if (isset($_FILES['visa_image']) && $_FILES['visa_image']['error'] == 0) {
         $target_dir = "../uploads/visa_images/";
         if (!is_dir($target_dir)) { mkdir($target_dir, 0777, true); }
@@ -66,8 +68,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $work_permit_image_path = $_POST['existing_work_permit_image'];
     }
 
-    // Update maid details using the Maid model (including nationality)
-    $maidUpdated = Maid::updateMaid($maid_id, $fname, $lname, $date_of_birth, $skills, $employment_status, $nationality);
+    // Update maid details using the Maid model (including nationality and language)
+    $maidUpdated = Maid::updateMaid($maid_id, $fname, $lname, $date_of_birth, $skills, $employment_status, $nationality, $language);
     if (!$maidUpdated) {
         echo "Error updating maid.";
         exit;

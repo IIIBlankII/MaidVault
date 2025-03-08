@@ -11,10 +11,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $date_of_birth = $_POST['date_of_birth'];
     $skills = $_POST['skills'];
     $employment_status = $_POST['employment_status'];
-    $nationality = $_POST['nationality']; // New field for nationality
+    $nationality = $_POST['nationality']; // Field for nationality
+    $language = $_POST['language']; // New field for language
 
-    // Add maid details to the database with nationality
-    $maid_id = Maid::addMaid($fname, $lname, $date_of_birth, $skills, $employment_status, $nationality);
+    // Add maid details to the database with nationality and language
+    $maid_id = Maid::addMaid($fname, $lname, $date_of_birth, $skills, $employment_status, $nationality, $language);
 
     if ($maid_id) {
         // Visa details

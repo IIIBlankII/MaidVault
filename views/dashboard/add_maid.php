@@ -23,6 +23,11 @@
             <label class="block text-gray-700">Date of Birth</label>
             <input type="date" name="date_of_birth" required class="w-full px-3 py-2 border rounded-md">
         </div>
+        <!-- New Language Field Below Date of Birth -->
+        <div class="mb-4">
+            <label class="block text-gray-700">Language</label>
+            <input type="text" name="language" required class="w-full px-3 py-2 border rounded-md">
+        </div>
         <div class="mb-4">
             <label class="block text-gray-700">Skills</label>
             <textarea name="skills" required class="w-full px-3 py-2 border rounded-md"></textarea>

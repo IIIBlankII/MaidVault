@@ -49,6 +49,7 @@ $updatedAt = date('d-m-Y (h:i A)', strtotime($maid['updated_at']));
         <p><strong>Age:</strong> <?php echo $age; ?></p>
         <p><strong>Nationality:</strong> <?php echo htmlspecialchars($maid['nationality']); ?></p>
         <p><strong>Date of Birth:</strong> <?php echo htmlspecialchars($maid['date_of_birth']); ?></p>
+        <p><strong>Language:</strong> <?php echo htmlspecialchars($maid['language']); ?></p>
         <p><strong>Skills:</strong> <?php echo htmlspecialchars($maid['skills']); ?></p>
         <p><strong>Employment Status:</strong> <?php echo htmlspecialchars($maid['employment_status']); ?></p>
     </div>
@@ -72,6 +73,7 @@ $updatedAt = date('d-m-Y (h:i A)', strtotime($maid['updated_at']));
             <p>No visa details available.</p>
         <?php endif; ?>
     </div>
+    
     <!-- Passport Image Section (new) -->
     <?php if (!empty($maid['passport_image'])): ?>
     <div class="bg-white p-4 shadow-md rounded-md mt-4">
@@ -90,6 +92,7 @@ $updatedAt = date('d-m-Y (h:i A)', strtotime($maid['updated_at']));
     </div>
     <?php endif; ?>
     <?php endif; ?>
+    
     <!-- Work Permit Image Section (new) -->
     <?php if (!empty($maid['work_permit_image'])): ?>
     <div class="bg-white p-4 shadow-md rounded-md mt-4">
