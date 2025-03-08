@@ -54,7 +54,7 @@ session_start();
   <!-- Top Navigation Bar -->
   <div class="bg-purple-300 shadow-md flex justify-between items-center px-6 py-4 relative">
     <div class="flex items-center">
-      <img src="logoo.png" alt="MaidVault Logo" class="h-8 w-8 mr-2">
+      <img src="../../uploads/logoo.png" alt="MaidVault Logo" class="h-8 w-8 mr-2">
       <span class="text-xl font-semibold text-white ">MaidVault</span>
     </div>
     <div class="flex space-x-6 items-center">
@@ -144,25 +144,6 @@ session_start();
     <p class="text-neutral-200 shadow">Manage maids, clients, and reports efficiently.</p>
 </div>
 </div>
-
-  <script>
-    var userRole = "<?php echo $_SESSION['user_role'] ?? 'user'; ?>";
-
-    // Toggle dropdown for cog button (logout option)
-    document.getElementById('cog-btn').addEventListener('click', function(e) {
-      e.stopPropagation();
-      var dropdown = document.getElementById('logout-dropdown');
-      dropdown.classList.toggle('hidden');
-    });
-
-    // Hide the logout dropdown if clicking outside
-    document.addEventListener('click', function() {
-      var dropdown = document.getElementById('logout-dropdown');
-      if (!dropdown.classList.contains('hidden')) {
-        dropdown.classList.add('hidden');
-      }
-    });
-  </script>
   
   <!-- Keep this in your PHP file -->
 <script>
