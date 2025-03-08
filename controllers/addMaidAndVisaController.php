@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once '../includes/db_connect.php';
 require_once '../models/Maid.php';
 require_once '../models/Visa.php';
@@ -10,9 +11,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $date_of_birth = $_POST['date_of_birth'];
     $skills = $_POST['skills'];
     $employment_status = $_POST['employment_status'];
+    $nationality = $_POST['nationality']; // New field for nationality
 
-    // Add maid details to the database
-    $maid_id = Maid::addMaid($fname, $lname, $date_of_birth, $skills, $employment_status);
+    // Add maid details to the database with nationality
+    $maid_id = Maid::addMaid($fname, $lname, $date_of_birth, $skills, $employment_status, $nationality);
 
     if ($maid_id) {
         // Visa details
@@ -47,8 +49,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
 
-        // Add visa details with image path
-        $visaAdded = Visa::addVisaDetails($maid_id, $visa_type, $visa_number, $date_of_issue, $expiration_date, $visa_duration, $work_permit_status, $passport_number, $issuing_country, $immigration_reference_number, $entry_date, $exit_date, $visa_image);
+        // Add visa details with image path (passing $visa_image_path)
+        $visaAdded = Visa::addVisaDetails(
+            $maid_id, $visa_type, $visa_number, $date_of_issue, 
+            $expiration_date, $visa_duration, $work_permit_status, 
+            $passport_number, $issuing_country, $immigration_reference_number, 
+            $entry_date, $exit_date, $visa_image_path
+        );
 
         if ($visaAdded) {
             $visa_id = $conn->insert_id;

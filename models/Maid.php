@@ -2,10 +2,11 @@
 require_once dirname(__DIR__) . '/includes/db_connect.php';
 
 class Maid {
-    public static function addMaid($fname, $lname, $date_of_birth, $skills, $employment_status) {
+    // Now accepts nationality as an additional parameter
+    public static function addMaid($fname, $lname, $date_of_birth, $skills, $employment_status, $nationality) {
         global $conn;
-        $stmt = $conn->prepare("INSERT INTO maid (fname, lname, date_of_birth, skills, employment_status) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $fname, $lname, $date_of_birth, $skills, $employment_status);
+        $stmt = $conn->prepare("INSERT INTO maid (fname, lname, date_of_birth, skills, employment_status, nationality) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssss", $fname, $lname, $date_of_birth, $skills, $employment_status, $nationality);
         if ($stmt->execute()) {
             $id = $conn->insert_id;
             $stmt->close();
@@ -16,10 +17,11 @@ class Maid {
         }
     }
 
-    public static function updateMaid($maid_id, $fname, $lname, $date_of_birth, $skills, $employment_status) {
+    // Updated to include nationality in the update
+    public static function updateMaid($maid_id, $fname, $lname, $date_of_birth, $skills, $employment_status, $nationality) {
         global $conn;
-        $stmt = $conn->prepare("UPDATE maid SET fname = ?, lname = ?, date_of_birth = ?, skills = ?, employment_status = ? WHERE maid_id = ?");
-        $stmt->bind_param("sssssi", $fname, $lname, $date_of_birth, $skills, $employment_status, $maid_id);
+        $stmt = $conn->prepare("UPDATE maid SET fname = ?, lname = ?, date_of_birth = ?, skills = ?, employment_status = ?, nationality = ? WHERE maid_id = ?");
+        $stmt->bind_param("ssssssi", $fname, $lname, $date_of_birth, $skills, $employment_status, $nationality, $maid_id);
         $result = $stmt->execute();
         $stmt->close();
         return $result;
@@ -45,9 +47,10 @@ class Maid {
         return $result;
     }
 
+    // Updated SELECT query to include nationality
     public static function getMaidById($maid_id) {
         global $conn;
-        $stmt = $conn->prepare("SELECT m.maid_id, m.fname, m.lname, m.date_of_birth, m.skills, m.employment_status, m.created_at, m.updated_at,
+        $stmt = $conn->prepare("SELECT m.maid_id, m.fname, m.lname, m.date_of_birth, m.skills, m.employment_status, m.nationality, m.created_at, m.updated_at,
                                        v.visa_type, v.visa_number, v.date_of_issue, v.expiration_date, v.visa_duration,
                                        v.work_permit_status, v.passport_number, v.issuing_country, v.immigration_reference_number,
                                        v.entry_date, v.exit_date, v.visa_image
@@ -60,6 +63,16 @@ class Maid {
         $maid = $result->fetch_assoc();
         $stmt->close();
         return $maid;
+    }
+
+    // New delete function to remove a maid record by ID
+    public static function deleteMaid($maid_id) {
+        global $conn;
+        $stmt = $conn->prepare("DELETE FROM maid WHERE maid_id = ?");
+        $stmt->bind_param("i", $maid_id);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
     }
 }
 ?>

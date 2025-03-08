@@ -61,31 +61,47 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Function to load PHP pages dynamically
 function loadPage(page) {
-    const mainContent = document.getElementById("main-content");
-    mainContent.innerHTML = '<p class="text-gray-500">Loading...</p>';
+  const mainContent = document.getElementById("main-content");
+  mainContent.innerHTML = '<p class="text-gray-500">Loading...</p>';
 
-    fetch(`../../views/dashboard/${page}.php`)
-        .then(response => {
-            if (!response.ok) throw new Error(`Failed to load ${page}`);
-            return response.text();
-        })
-        .then(html => {
-            mainContent.innerHTML = html;
-            
-            // Check for pages that need reinitializing scripts
-            if (page === "calendar") {
-                if (typeof initializeCalendar === "function") {
+  fetch(`../../views/dashboard/${page}.php`)
+      .then(response => {
+          if (!response.ok) throw new Error(`Failed to load ${page}`);
+          return response.text();
+      })
+      .then(html => {
+          mainContent.innerHTML = html;
+          
+          // Execute any inline scripts in the loaded HTML
+          const scripts = mainContent.querySelectorAll("script");
+          scripts.forEach(oldScript => {
+              const newScript = document.createElement("script");
+              // Copy the script content and attributes
+              if (oldScript.src) {
+                  newScript.src = oldScript.src;
+              } else {
+                  newScript.text = oldScript.innerHTML;
+              }
+              document.body.appendChild(newScript);
+              // Optionally remove the script after execution
+              document.body.removeChild(newScript);
+          });
+          
+          // Check for pages that need reinitializing scripts
+          if (page === "calendar") {
+              if (typeof initializeCalendar === "function") {
                   initializeCalendar();
-                }   
-            }
-            
-            // Only reinitialize charts if analytics or maindash are loaded (fix the condition)
-            if (page === "analytics" || page === "maindash") {
-                setTimeout(() => reinitializeCharts(), 100);
-            }
-        })
-        .catch(error => {
-            console.error(error);
-            mainContent.innerHTML = '<p class="text-red-500">Error loading content.</p>';
-        });
+              }   
+          }
+          
+          // Only reinitialize charts if analytics or maindash are loaded
+          if (page === "analytics" || page === "maindash") {
+              setTimeout(() => reinitializeCharts(), 100);
+          }
+      })
+      .catch(error => {
+          console.error(error);
+          mainContent.innerHTML = '<p class="text-red-500">Error loading content.</p>';
+      });
 }
+

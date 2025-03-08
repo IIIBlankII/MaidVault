@@ -44,5 +44,14 @@ class Client {
         return $client;
     }
     
+    // New delete function for Client
+    public static function deleteClient($client_id) {
+        global $conn;
+        $stmt = $conn->prepare("DELETE FROM client WHERE client_id = ?");
+        $stmt->bind_param("i", $client_id);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
+    }
 }
 ?>

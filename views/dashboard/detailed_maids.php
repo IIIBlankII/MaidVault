@@ -47,6 +47,7 @@ $updatedAt = date('d-m-Y (h:i A)', strtotime($maid['updated_at']));
         <p><strong>ID:</strong> <?php echo htmlspecialchars($maid['maid_id']); ?></p>
         <p><strong>Name:</strong> <?php echo htmlspecialchars($maid['fname'] . " " . $maid['lname']); ?></p>
         <p><strong>Age:</strong> <?php echo $age; ?></p>
+        <p><strong>Nationality:</strong> <?php echo htmlspecialchars($maid['nationality']); ?></p>
         <p><strong>Date of Birth:</strong> <?php echo htmlspecialchars($maid['date_of_birth']); ?></p>
         <p><strong>Skills:</strong> <?php echo htmlspecialchars($maid['skills']); ?></p>
         <p><strong>Employment Status:</strong> <?php echo htmlspecialchars($maid['employment_status']); ?></p>
@@ -87,4 +88,46 @@ $updatedAt = date('d-m-Y (h:i A)', strtotime($maid['updated_at']));
         <p><strong>Created at:</strong> <?php echo $createdAt; ?></p>
         <p><strong>Updated at:</strong> <?php echo $updatedAt; ?></p>
     </div>
+    
+    <!-- Delete Button Section -->
+    <div class="mt-4" id="deleteButtonContainer" data-maid-id="<?php echo htmlspecialchars($maid['maid_id']); ?>">
+    <button id="deleteButton" onclick="showConfirmDelete(event)" class="bg-red-500 text-white px-4 py-2 rounded-md">
+        Delete
+    </button>
+    </div>
 </div>
+
+<script>
+    // Show confirm delete button in place of the delete button
+    function showConfirmDelete(event) {
+        event.stopPropagation(); // Prevent the event from bubbling up immediately
+        const container = document.getElementById('deleteButtonContainer');
+        const maidId = container.getAttribute('data-maid-id');
+        container.innerHTML = `<button id="confirmDeleteButton" onclick="performDelete(${maidId}); event.stopPropagation();" class="bg-red-700 text-white px-4 py-2 rounded-md">
+            Confirm Delete
+        </button>`;
+        
+        // Add a global click listener to detect clicks outside the container
+        setTimeout(() => {
+            document.addEventListener('click', handleClickOutside);
+        }, 0);
+    }
+    
+    // Revert the confirm delete button back to the original delete button when clicking outside
+    function handleClickOutside(event) {
+        const container = document.getElementById('deleteButtonContainer');
+        if (!container.contains(event.target)) {
+            const maidId = container.getAttribute('data-maid-id');
+            container.innerHTML = `<button id="deleteButton" onclick="showConfirmDelete(event)" class="bg-red-500 text-white px-4 py-2 rounded-md">
+                Delete
+            </button>`;
+            document.removeEventListener('click', handleClickOutside);
+        }
+    }
+    
+    // Perform the deletion after final confirmation
+    function performDelete(maidId) {
+        loadPage('../../controllers/deleteMaidController.php?maid_id=' + maidId);
+        
+    }
+</script>

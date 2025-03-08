@@ -53,4 +53,47 @@ $updatedAt = date('d-m-Y (h:i A)', strtotime($client['updated_at']));
         <p><strong>Created at:</strong> <?php echo $createdAt; ?></p>
         <p><strong>Updated at:</strong> <?php echo $updatedAt; ?></p>
     </div>
+    
+    <!-- Delete Button Section (Admin Only) -->
+    <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+    <div class="mt-4" id="deleteButtonContainer" data-client-id="<?php echo htmlspecialchars($client['client_id']); ?>">
+        <button id="deleteButton" onclick="showConfirmDelete(event)" class="bg-red-500 text-white px-4 py-2 rounded-md">
+            Delete
+        </button>
+    </div>
+    <?php endif; ?>
 </div>
+
+<script>
+    // Show confirm delete button in place of the delete button
+    function showConfirmDelete(event) {
+        event.stopPropagation(); // Prevent the event from bubbling up immediately
+        const container = document.getElementById('deleteButtonContainer');
+        const clientId = container.getAttribute('data-client-id');
+        container.innerHTML = `<button id="confirmDeleteButton" onclick="performDelete(${clientId}); event.stopPropagation();" class="bg-red-700 text-white px-4 py-2 rounded-md">
+            Confirm Delete
+        </button>`;
+        
+        // Add a global click listener to detect clicks outside the container
+        setTimeout(() => {
+            document.addEventListener('click', handleClickOutside);
+        }, 0);
+    }
+    
+    // Revert the confirm delete button back to the original delete button when clicking outside
+    function handleClickOutside(event) {
+        const container = document.getElementById('deleteButtonContainer');
+        if (!container.contains(event.target)) {
+            const clientId = container.getAttribute('data-client-id');
+            container.innerHTML = `<button id="deleteButton" onclick="showConfirmDelete(event)" class="bg-red-500 text-white px-4 py-2 rounded-md">
+                Delete
+            </button>`;
+            document.removeEventListener('click', handleClickOutside);
+        }
+    }
+    
+    // Perform the deletion after final confirmation
+    function performDelete(clientId) {
+        loadPage('../../controllers/deleteClientController.php?client_id=' + clientId);
+    }
+</script>

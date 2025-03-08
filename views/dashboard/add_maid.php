@@ -16,6 +16,10 @@
             <input type="text" name="lname" required class="w-full px-3 py-2 border rounded-md">
         </div>
         <div class="mb-4">
+            <label class="block text-gray-700">Nationality</label>
+            <input type="text" name="nationality" required class="w-full px-3 py-2 border rounded-md">
+        </div>
+        <div class="mb-4">
             <label class="block text-gray-700">Date of Birth</label>
             <input type="date" name="date_of_birth" required class="w-full px-3 py-2 border rounded-md">
         </div>

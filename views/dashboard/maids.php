@@ -1,8 +1,8 @@
 <?php
 require_once '../../includes/db_connect.php';
 
-// Query every maid along with their visa expiration date (if available)
-$query = "SELECT m.maid_id, m.fname, m.lname, m.date_of_birth, m.skills, m.employment_status, v.expiration_date 
+// Query every maid along with their visa expiration date (if available) and nationality
+$query = "SELECT m.maid_id, m.fname, m.lname, m.date_of_birth, m.nationality, m.skills, m.employment_status, v.expiration_date 
           FROM maid m 
           LEFT JOIN visa_details v ON m.visa_details_id = v.id
           ORDER BY m.maid_id ASC";
@@ -31,8 +31,8 @@ function calculate_age($dob) {
       <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">ID</th>
       <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Name</th>
       <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Age</th>
+      <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Nationality</th>
       <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Skills</th>
-      <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Employment Status</th>
       <th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Visa Status</th>
     </tr>
   </thead>
@@ -61,8 +61,8 @@ function calculate_age($dob) {
             </a>
           </td>
           <td class="px-6 py-4 whitespace-nowrap"><?php echo $age; ?></td>
+          <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlspecialchars($row['nationality']); ?></td>
           <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlspecialchars($row['skills']); ?></td>
-          <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlspecialchars($row['employment_status']); ?></td>
           <td class="px-6 py-4 whitespace-nowrap"><?php echo $visaStatus; ?></td>
         </tr>
       <?php endwhile; ?>

@@ -9,7 +9,8 @@ if (!isset($_GET['maid_id'])) {
 
 $maid_id = intval($_GET['maid_id']);
 
-$stmt = $conn->prepare("SELECT m.maid_id, m.fname, m.lname, m.date_of_birth, m.skills, m.employment_status,
+// Updated SELECT query to include nationality
+$stmt = $conn->prepare("SELECT m.maid_id, m.fname, m.lname, m.date_of_birth, m.skills, m.employment_status, m.nationality,
                                v.visa_type, v.visa_number, v.date_of_issue, v.expiration_date, v.visa_duration,
                                v.work_permit_status, v.passport_number, v.issuing_country, v.immigration_reference_number,
                                v.entry_date, v.exit_date, v.visa_image
@@ -49,6 +50,11 @@ if (!$maid) {
             <div class="mb-4">
                 <label class="block text-gray-700">Last Name</label>
                 <input type="text" name="lname" value="<?php echo htmlspecialchars($maid['lname']); ?>" required class="w-full px-3 py-2 border rounded-md">
+            </div>
+            <!-- New Nationality Field -->
+            <div class="mb-4">
+                <label class="block text-gray-700">Nationality</label>
+                <input type="text" name="nationality" value="<?php echo htmlspecialchars($maid['nationality']); ?>" required class="w-full px-3 py-2 border rounded-md">
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700">Date of Birth</label>
@@ -115,8 +121,8 @@ if (!$maid) {
                 <label class="block text-gray-700">Exit Date</label>
                 <input type="date" name="exit_date" value="<?php echo htmlspecialchars($maid['exit_date']); ?>" required class="w-full px-3 py-2 border rounded-md">
             </div>
-             <!-- Added block for visa image -->
-             <div class="mb-4">
+            <!-- Added block for visa image -->
+            <div class="mb-4">
                 <label class="block text-gray-700">Visa Image</label>
                 <?php if (!empty($maid['visa_image'])): ?>
                     <div class="mb-2">

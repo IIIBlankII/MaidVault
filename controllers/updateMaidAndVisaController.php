@@ -12,6 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $date_of_birth = $_POST['date_of_birth'];
     $skills = $_POST['skills'];
     $employment_status = $_POST['employment_status'];
+    $nationality = $_POST['nationality']; // New field for nationality
 
     // Retrieve visa fields from POST data
     $visa_type = $_POST['visa_type'];
@@ -40,8 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // Update maid details using the Maid model
-    $maidUpdated = Maid::updateMaid($maid_id, $fname, $lname, $date_of_birth, $skills, $employment_status);
+    // Update maid details using the Maid model (including nationality)
+    $maidUpdated = Maid::updateMaid($maid_id, $fname, $lname, $date_of_birth, $skills, $employment_status, $nationality);
     if (!$maidUpdated) {
         echo "Error updating maid.";
         exit;
