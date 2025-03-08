@@ -2,7 +2,7 @@
 // This view file contains only the form markup.
 // Form action points to the combined controller.
 ?>
-<h1 class="text-2xl font-semibold mb-4">Add New Maid</h1>
+<h1 class="text-2xl text-neutral-100 font-semibold mb-4">Add New Maid</h1>
 <form id="addMaidForm" method="POST" action="../../controllers/addMaidAndVisaController.php" class="space-y-6" enctype="multipart/form-data">
     <!-- Maid Details Section -->
     <div class="bg-white p-4 shadow-md rounded-md">
@@ -88,5 +88,6 @@
     </div>
 
     <!-- Single Submit Button for Both Sections -->
-    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">Add Maid</button>
-</form>
+    <button type="submit" class="bg-purple-500 hover:bg-purple-700 text-white px-4 py-2 rounded-md transition duration-200 ease-in-out transform hover:scale-105 hover:shadow-lg">
+  Add Maid
+</button></form>

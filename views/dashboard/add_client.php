@@ -2,7 +2,7 @@
 // This view file contains only the form markup.
 // Form action points to the client controller (e.g., addClientController.php)
 ?>
-<h1 class="text-2xl font-semibold mb-4">Add New Client</h1>
+<h1 class="text-2xl text-neutral-100 font-semibold mb-4">Add New Client</h1>
 <form id="addClientForm" method="POST" action="../../controllers/addClientController.php" class="space-y-6">
     <!-- Client Details Section -->
     <div class="bg-white p-4 shadow-md rounded-md">
@@ -43,5 +43,9 @@
     </div>
 
     <!-- Single Submit Button -->
-    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">Add Client</button>
+    <button type="submit" class="bg-purple-500 hover:bg-purple-700 text-white px-4 py-2 rounded-md transition duration-200 ease-in-out transform hover:scale-105 hover:shadow-lg">
+  Add Client
+</button>
+ 
+
 </form>
