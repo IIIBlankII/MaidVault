@@ -47,13 +47,13 @@ class Maid {
         return $result;
     }
 
-    // Updated SELECT query to include nationality
+    // Updated SELECT query to include nationality, passport_image, and work_permit_image
     public static function getMaidById($maid_id) {
         global $conn;
         $stmt = $conn->prepare("SELECT m.maid_id, m.fname, m.lname, m.date_of_birth, m.skills, m.employment_status, m.nationality, m.created_at, m.updated_at,
                                        v.visa_type, v.visa_number, v.date_of_issue, v.expiration_date, v.visa_duration,
                                        v.work_permit_status, v.passport_number, v.issuing_country, v.immigration_reference_number,
-                                       v.entry_date, v.exit_date, v.visa_image
+                                       v.entry_date, v.exit_date, v.visa_image, v.passport_image, v.work_permit_image
                                 FROM maid m
                                 LEFT JOIN visa_details v ON m.visa_details_id = v.id
                                 WHERE m.maid_id = ?");

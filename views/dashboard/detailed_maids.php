@@ -72,13 +72,30 @@ $updatedAt = date('d-m-Y (h:i A)', strtotime($maid['updated_at']));
             <p>No visa details available.</p>
         <?php endif; ?>
     </div>
-    
-    <!-- Visa Image Section -->
+    <!-- Passport Image Section (new) -->
+    <?php if (!empty($maid['passport_image'])): ?>
+    <div class="bg-white p-4 shadow-md rounded-md mt-4">
+        <h2 class="text-xl font-semibold mb-2">Passport Image</h2>
+        <img src="../../<?php echo htmlspecialchars($maid['passport_image']); ?>" 
+             alt="Passport Image" 
+             class="w-full h-auto border rounded-md">
+    </div>
+    <!-- Existing Visa Image Section (optional) -->
     <?php if (!empty($maid['visa_image'])): ?>
     <div class="bg-white p-4 shadow-md rounded-md mt-4">
         <h2 class="text-xl font-semibold mb-2">Visa Image</h2>
         <img src="../../<?php echo htmlspecialchars($maid['visa_image']); ?>" 
              alt="Visa Image" 
+             class="w-full h-auto border rounded-md">
+    </div>
+    <?php endif; ?>
+    <?php endif; ?>
+    <!-- Work Permit Image Section (new) -->
+    <?php if (!empty($maid['work_permit_image'])): ?>
+    <div class="bg-white p-4 shadow-md rounded-md mt-4">
+        <h2 class="text-xl font-semibold mb-2">Work Permit Image</h2>
+        <img src="../../<?php echo htmlspecialchars($maid['work_permit_image']); ?>" 
+             alt="Work Permit Image" 
              class="w-full h-auto border rounded-md">
     </div>
     <?php endif; ?>
@@ -91,9 +108,9 @@ $updatedAt = date('d-m-Y (h:i A)', strtotime($maid['updated_at']));
     
     <!-- Delete Button Section -->
     <div class="mt-4" id="deleteButtonContainer" data-maid-id="<?php echo htmlspecialchars($maid['maid_id']); ?>">
-    <button id="deleteButton" onclick="showConfirmDelete(event)" class="bg-red-500 text-white px-4 py-2 rounded-md">
-        Delete
-    </button>
+        <button id="deleteButton" onclick="showConfirmDelete(event)" class="bg-red-500 text-white px-4 py-2 rounded-md">
+            Delete
+        </button>
     </div>
 </div>
 
@@ -128,6 +145,5 @@ $updatedAt = date('d-m-Y (h:i A)', strtotime($maid['updated_at']));
     // Perform the deletion after final confirmation
     function performDelete(maidId) {
         loadPage('../../controllers/deleteMaidController.php?maid_id=' + maidId);
-        
     }
 </script>

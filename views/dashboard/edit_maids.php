@@ -9,11 +9,11 @@ if (!isset($_GET['maid_id'])) {
 
 $maid_id = intval($_GET['maid_id']);
 
-// Updated SELECT query to include nationality
+// Updated SELECT query to include nationality, passport_image and work_permit_image
 $stmt = $conn->prepare("SELECT m.maid_id, m.fname, m.lname, m.date_of_birth, m.skills, m.employment_status, m.nationality,
                                v.visa_type, v.visa_number, v.date_of_issue, v.expiration_date, v.visa_duration,
                                v.work_permit_status, v.passport_number, v.issuing_country, v.immigration_reference_number,
-                               v.entry_date, v.exit_date, v.visa_image
+                               v.entry_date, v.exit_date, v.visa_image, v.passport_image, v.work_permit_image
                         FROM maid m
                         LEFT JOIN visa_details v ON m.visa_details_id = v.id
                         WHERE m.maid_id = ?");
@@ -73,6 +73,17 @@ if (!$maid) {
                 </select>
             </div>
         </div>
+        
+        <!-- Passport Image Section (new) -->
+        <div class="bg-white p-4 shadow-md rounded-md mb-4">
+            <h2 class="text-xl font-semibold mb-4">Passport Image</h2>
+            <?php if (!empty($maid['passport_image'])): ?>
+                <div class="mb-2">
+                    <img src="../../<?php echo htmlspecialchars($maid['passport_image']); ?>" alt="Passport Image" class="w-40 h-auto border rounded-md">
+                </div>
+            <?php endif; ?>
+            <input type="file" name="passport_image" accept="image/*" class="w-full px-3 py-2 border rounded-md">
+        </div>
     
         <!-- Visa Details Section -->
         <div class="bg-white p-4 shadow-md rounded-md border border-gray-200">
@@ -121,7 +132,7 @@ if (!$maid) {
                 <label class="block text-gray-700">Exit Date</label>
                 <input type="date" name="exit_date" value="<?php echo htmlspecialchars($maid['exit_date']); ?>" required class="w-full px-3 py-2 border rounded-md">
             </div>
-            <!-- Added block for visa image -->
+            <!-- Visa Image Upload Field -->
             <div class="mb-4">
                 <label class="block text-gray-700">Visa Image</label>
                 <?php if (!empty($maid['visa_image'])): ?>
@@ -133,7 +144,55 @@ if (!$maid) {
             </div>
         </div>
     
+        <!-- Work Permit Image Section (new) -->
+        <div class="bg-white p-4 shadow-md rounded-md mt-4">
+            <h2 class="text-xl font-semibold mb-4">Work Permit Image</h2>
+            <?php if (!empty($maid['work_permit_image'])): ?>
+                <div class="mb-2">
+                    <img src="../../<?php echo htmlspecialchars($maid['work_permit_image']); ?>" alt="Work Permit Image" class="w-40 h-auto border rounded-md">
+                </div>
+            <?php endif; ?>
+            <input type="file" name="work_permit_image" accept="image/*" class="w-full px-3 py-2 border rounded-md">
+        </div>
+        <input type="hidden" name="existing_visa_image" value="<?php echo htmlspecialchars($maid['visa_image']); ?>">
+        <input type="hidden" name="existing_passport_image" value="<?php echo htmlspecialchars($maid['passport_image']); ?>">
+        <input type="hidden" name="existing_work_permit_image" value="<?php echo htmlspecialchars($maid['work_permit_image']); ?>">
+    
         <!-- Single Submit Button -->
         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">Update Maid</button>
     </form>
 </div>
+
+<script>
+    // Show confirm delete button in place of the delete button
+    function showConfirmDelete(event) {
+        event.stopPropagation(); // Prevent the event from bubbling up immediately
+        const container = document.getElementById('deleteButtonContainer');
+        const maidId = container.getAttribute('data-maid-id');
+        container.innerHTML = `<button id="confirmDeleteButton" onclick="performDelete(${maidId}); event.stopPropagation();" class="bg-red-700 text-white px-4 py-2 rounded-md">
+            Confirm Delete
+        </button>`;
+        
+        // Add a global click listener to detect clicks outside the container
+        setTimeout(() => {
+            document.addEventListener('click', handleClickOutside);
+        }, 0);
+    }
+    
+    // Revert the confirm delete button back to the original delete button when clicking outside
+    function handleClickOutside(event) {
+        const container = document.getElementById('deleteButtonContainer');
+        if (!container.contains(event.target)) {
+            const maidId = container.getAttribute('data-maid-id');
+            container.innerHTML = `<button id="deleteButton" onclick="showConfirmDelete(event)" class="bg-red-500 text-white px-4 py-2 rounded-md">
+                Delete
+            </button>`;
+            document.removeEventListener('click', handleClickOutside);
+        }
+    }
+    
+    // Perform the deletion after final confirmation
+    function performDelete(maidId) {
+        loadPage('../../controllers/deleteMaidController.php?maid_id=' + maidId);
+    }
+</script>

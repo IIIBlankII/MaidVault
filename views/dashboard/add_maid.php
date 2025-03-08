@@ -89,9 +89,20 @@
             <label class="block text-gray-700">Attach Visa Image</label>
             <input type="file" name="visa_image" class="w-full px-3 py-2 border rounded-md">
         </div>
+        <!-- New field for Passport Image -->
+        <div class="mb-4">
+            <label class="block text-gray-700">Attach Passport Image</label>
+            <input type="file" name="passport_image" class="w-full px-3 py-2 border rounded-md">
+        </div>
+        <!-- New field for Work Permit Image -->
+        <div class="mb-4">
+            <label class="block text-gray-700">Attach Work Permit Image</label>
+            <input type="file" name="work_permit_image" class="w-full px-3 py-2 border rounded-md">
+        </div>
     </div>
 
     <!-- Single Submit Button for Both Sections -->
     <button type="submit" class="bg-purple-500 hover:bg-purple-700 text-white px-4 py-2 rounded-md transition duration-200 ease-in-out transform hover:scale-105 hover:shadow-lg">
-  Add Maid
-</button></form>
+        Add Maid
+    </button>
+</form>

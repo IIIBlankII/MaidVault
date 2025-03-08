@@ -32,29 +32,63 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Handle Visa Image Upload
         $visa_image_path = null; // Default value (no image uploaded)
-
         if (isset($_FILES['visa_image']) && $_FILES['visa_image']['error'] == 0) {
-            $target_dir = "../uploads/visa_images/"; // Folder where images will be stored
-            $file_name = time() . "_" . basename($_FILES["visa_image"]["name"]); // Unique file name
-            $target_file = $target_dir . $file_name;
-
-            // Check if directory exists, if not, create it
+            $target_dir = "../uploads/visa_images/"; // Folder for visa images
             if (!is_dir($target_dir)) {
                 mkdir($target_dir, 0777, true);
             }
-
-            // Move uploaded file to target directory
+            $file_name = time() . "_" . basename($_FILES["visa_image"]["name"]);
+            $target_file = $target_dir . $file_name;
             if (move_uploaded_file($_FILES["visa_image"]["tmp_name"], $target_file)) {
-                $visa_image_path = "uploads/visa_images/" . $file_name; // Store relative path
+                $visa_image_path = "uploads/visa_images/" . $file_name;
+            }
+        }
+        
+        // Handle Passport Image Upload
+        $passport_image_path = null;
+        if (isset($_FILES['passport_image']) && $_FILES['passport_image']['error'] == 0) {
+            $target_dir = "../uploads/passport_images/"; // Folder for passport images
+            if (!is_dir($target_dir)) {
+                mkdir($target_dir, 0777, true);
+            }
+            $file_name = time() . "_" . basename($_FILES["passport_image"]["name"]);
+            $target_file = $target_dir . $file_name;
+            if (move_uploaded_file($_FILES["passport_image"]["tmp_name"], $target_file)) {
+                $passport_image_path = "uploads/passport_images/" . $file_name;
+            }
+        }
+        
+        // Handle Work Permit Image Upload
+        $work_permit_image_path = null;
+        if (isset($_FILES['work_permit_image']) && $_FILES['work_permit_image']['error'] == 0) {
+            $target_dir = "../uploads/work_permit_images/"; // Folder for work permit images
+            if (!is_dir($target_dir)) {
+                mkdir($target_dir, 0777, true);
+            }
+            $file_name = time() . "_" . basename($_FILES["work_permit_image"]["name"]);
+            $target_file = $target_dir . $file_name;
+            if (move_uploaded_file($_FILES["work_permit_image"]["tmp_name"], $target_file)) {
+                $work_permit_image_path = "uploads/work_permit_images/" . $file_name;
             }
         }
 
-        // Add visa details with image path (passing $visa_image_path)
+        // Add visa details with image paths (including passport and work permit images)
         $visaAdded = Visa::addVisaDetails(
-            $maid_id, $visa_type, $visa_number, $date_of_issue, 
-            $expiration_date, $visa_duration, $work_permit_status, 
-            $passport_number, $issuing_country, $immigration_reference_number, 
-            $entry_date, $exit_date, $visa_image_path
+            $maid_id, 
+            $visa_type, 
+            $visa_number, 
+            $date_of_issue, 
+            $expiration_date, 
+            $visa_duration, 
+            $work_permit_status, 
+            $passport_number, 
+            $issuing_country, 
+            $immigration_reference_number, 
+            $entry_date, 
+            $exit_date, 
+            $visa_image_path,
+            $passport_image_path,      // New parameter
+            $work_permit_image_path    // New parameter
         );
 
         if ($visaAdded) {
