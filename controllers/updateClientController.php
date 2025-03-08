@@ -12,9 +12,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $company_name = $_POST['company_name'];
     $notes = $_POST['notes'];
-    
-    $clientUpdated = Client::updateClient($client_id, $fname, $lname, $address, $contact_number, $email, $company_name, $notes);
-    
+    $household_size = $_POST['household_size'];
+    $number_of_children = $_POST['number_of_children'];
+    $number_of_elders = $_POST['number_of_elders'];
+    $pets = $_POST['pets'];
+    $preferred_nationality = $_POST['preferred_nationality'];
+    $preferred_language = $_POST['preferred_language'];
+    $work_type = $_POST['work_type'];
+    $special_requirements = $_POST['special_requirements'];
+
+    $clientUpdated = Client::updateClient($client_id, $fname, $lname, $address, $contact_number, $email, $notes, $household_size, $number_of_children, $number_of_elders, $pets, $preferred_nationality, $preferred_language, $work_type, $special_requirements);
+
     if ($clientUpdated) {
         header("Location: ../views/dashboard/main.php?msg=Client+updated+successfully");
         exit();

@@ -9,7 +9,7 @@ if (!isset($_GET['client_id'])) {
 
 $client_id = intval($_GET['client_id']);
 
-$stmt = $conn->prepare("SELECT client_id, fname, lname, address, contact_number, email, company_name, notes FROM client WHERE client_id = ?");
+$stmt = $conn->prepare("SELECT client_id, fname, lname, address, contact_number, email, household_size, number_of_children, number_of_elders, pets, preferred_nationality, preferred_language, work_type, special_requirements, notes FROM client WHERE client_id = ?");
 $stmt->bind_param("i", $client_id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -61,12 +61,53 @@ if (!$client) {
         <div class="bg-white p-4 shadow-md rounded-md border border-gray-200">
             <h2 class="text-xl font-semibold mb-4">Additional Information</h2>
             <div class="mb-4">
-                <label class="block text-gray-700">Company Name</label>
-                <input type="text" name="company_name" value="<?php echo htmlspecialchars($client['company_name']); ?>" class="w-full px-3 py-2 border rounded-md">
+                <label class="block text-gray-700">Household Size</label>
+                <input type="number" name="household_size" value="<?php echo htmlspecialchars($client['household_size']); ?>" class="w-full px-3 py-2 border rounded-md">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Number of Children</label>
+                <input type="number" name="number_of_children" value="<?php echo htmlspecialchars($client['number_of_children']); ?>" class="w-full px-3 py-2 border rounded-md">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Number of Elders</label>
+                <input type="number" name="number_of_elders" value="<?php echo htmlspecialchars($client['number_of_elders']); ?>" class="w-full px-3 py-2 border rounded-md">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Pets</label>
+                <select name="pets" class="w-full px-3 py-2 border rounded-md">
+                    <option value="None" <?php if ($client['pets'] == "None") echo "selected"; ?>>None</option>
+                    <option value="Dogs" <?php if ($client['pets'] == "Dogs") echo "selected"; ?>>Dogs</option>
+                    <option value="Cats" <?php if ($client['pets'] == "Cats") echo "selected"; ?>>Cats</option>
+                    <option value="Other" <?php if ($client['pets'] == "Other") echo "selected"; ?>>Other</option>
+                </select>
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700">Notes</label>
                 <textarea name="notes" class="w-full px-3 py-2 border rounded-md"><?php echo htmlspecialchars($client['notes']); ?></textarea>
+            </div>
+        </div>
+        
+        <!-- Maid Preference Section -->
+        <div class="bg-white p-4 shadow-md rounded-md border border-gray-200">
+            <h2 class="text-xl font-semibold mb-4">Maid Preference</h2>
+            <div class="mb-4">
+                <label class="block text-gray-700">Preferred Nationality</label>
+                <input type="text" name="preferred_nationality" value="<?php echo htmlspecialchars($client['preferred_nationality']); ?>" class="w-full px-3 py-2 border rounded-md">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Preferred Language</label>
+                <input type="text" name="preferred_language" value="<?php echo htmlspecialchars($client['preferred_language']); ?>" class="w-full px-3 py-2 border rounded-md">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Work Type</label>
+                <select name="work_type" required class="w-full px-3 py-2 border rounded-md">
+                    <option value="Full-time" <?php if ($client['work_type'] == "Full-time") echo "selected"; ?>>Full-time</option>
+                    <option value="Part-time" <?php if ($client['work_type'] == "Part-time") echo "selected"; ?>>Part-time</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Special Requirements</label>
+                <textarea name="special_requirements" class="w-full px-3 py-2 border rounded-md"><?php echo htmlspecialchars($client['special_requirements']); ?></textarea>
             </div>
         </div>
         

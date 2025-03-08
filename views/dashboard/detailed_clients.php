@@ -21,16 +21,16 @@ $updatedAt = date('d-m-Y (h:i A)', strtotime($client['updated_at']));
 ?>
 
 <div class="p-4">
-    <!-- Top bar with Back and conditional Edit button -->
+    <!-- Top bar with Back and Edit button -->
     <div class="flex justify-between items-center mb-4">
         <button onclick="loadPage('clients')" class="bg-gray-500 text-white px-4 py-2 rounded-md">Back</button>
         <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
             <a href="#" onclick="loadPage('edit_clients.php?client_id=<?php echo htmlspecialchars($client['client_id']); ?>')" class="bg-blue-500 text-white px-4 py-2 rounded-md">Edit</a>
         <?php endif; ?>
     </div>
-    
+
     <h1 class="text-2xl font-semibold mb-4">Client Details: <?php echo htmlspecialchars($client['fname'] . " " . $client['lname']); ?></h1>
-    
+
     <!-- Basic Information Section -->
     <div class="bg-white p-4 shadow-md rounded-md mb-4">
         <h2 class="text-xl font-semibold mb-2">Basic Information</h2>
@@ -40,20 +40,32 @@ $updatedAt = date('d-m-Y (h:i A)', strtotime($client['updated_at']));
         <p><strong>Contact Number:</strong> <?php echo htmlspecialchars($client['contact_number']); ?></p>
         <p><strong>Email:</strong> <?php echo htmlspecialchars($client['email']); ?></p>
     </div>
-    
+
     <!-- Additional Information Section -->
-    <div class="bg-white p-4 shadow-md rounded-md">
+    <div class="bg-white p-4 shadow-md rounded-md mb-4">
         <h2 class="text-xl font-semibold mb-2">Additional Information</h2>
-        <p><strong>Company Name:</strong> <?php echo htmlspecialchars($client['company_name']); ?></p>
+        <p><strong>Household Size:</strong> <?php echo htmlspecialchars($client['household_size']); ?></p>
+        <p><strong>Number of Children:</strong> <?php echo htmlspecialchars($client['number_of_children']); ?></p>
+        <p><strong>Number of Elders:</strong> <?php echo htmlspecialchars($client['number_of_elders']); ?></p>
+        <p><strong>Pets:</strong> <?php echo htmlspecialchars($client['pets']); ?></p>
         <p><strong>Notes:</strong> <?php echo htmlspecialchars($client['notes']); ?></p>
     </div>
-    
+
+    <!-- Maid Preference Section -->
+    <div class="bg-white p-4 shadow-md rounded-md mb-4">
+        <h2 class="text-xl font-semibold mb-2">Maid Preference</h2>
+        <p><strong>Preferred Nationality:</strong> <?php echo htmlspecialchars($client['preferred_nationality']); ?></p>
+        <p><strong>Preferred Language:</strong> <?php echo htmlspecialchars($client['preferred_language']); ?></p>
+        <p><strong>Work Type:</strong> <?php echo htmlspecialchars($client['work_type']); ?></p>
+        <p><strong>Special Requirements:</strong> <?php echo htmlspecialchars($client['special_requirements']); ?></p>
+    </div>
+
     <!-- Created and Updated Dates Section -->
-    <div class="bg-white p-4 shadow-md rounded-md mt-4">
+    <div class="bg-white p-4 shadow-md rounded-md">
         <p><strong>Created at:</strong> <?php echo $createdAt; ?></p>
         <p><strong>Updated at:</strong> <?php echo $updatedAt; ?></p>
     </div>
-    
+
     <!-- Delete Button Section (Admin Only) -->
     <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
     <div class="mt-4" id="deleteButtonContainer" data-client-id="<?php echo htmlspecialchars($client['client_id']); ?>">
