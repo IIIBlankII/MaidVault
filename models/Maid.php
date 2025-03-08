@@ -2,7 +2,9 @@
 require_once dirname(__DIR__) . '/includes/db_connect.php';
 
 class Maid {
-    // Now accepts nationality and language as additional parameters
+    // Existing functions...
+    
+    // Add a new maid
     public static function addMaid($fname, $lname, $date_of_birth, $skills, $employment_status, $nationality, $language) {
         global $conn;
         $stmt = $conn->prepare("INSERT INTO maid (fname, lname, date_of_birth, skills, employment_status, nationality, language) VALUES (?, ?, ?, ?, ?, ?, ?)");
@@ -17,7 +19,7 @@ class Maid {
         }
     }
 
-    // Updated to include nationality and language in the update
+    // Update maid information
     public static function updateMaid($maid_id, $fname, $lname, $date_of_birth, $skills, $employment_status, $nationality, $language) {
         global $conn;
         $stmt = $conn->prepare("UPDATE maid SET fname = ?, lname = ?, date_of_birth = ?, skills = ?, employment_status = ?, nationality = ?, language = ? WHERE maid_id = ?");
@@ -27,6 +29,7 @@ class Maid {
         return $result;
     }
 
+    // Get visa id for a maid
     public static function getVisaId($maid_id) {
         global $conn;
         $stmt = $conn->prepare("SELECT visa_details_id FROM maid WHERE maid_id = ?");
@@ -38,6 +41,7 @@ class Maid {
         return $visa_details_id;
     }
 
+    // Update visa id for a maid
     public static function updateVisaId($maid_id, $visa_id) {
         global $conn;
         $stmt = $conn->prepare("UPDATE maid SET visa_details_id = ? WHERE maid_id = ?");
@@ -47,7 +51,7 @@ class Maid {
         return $result;
     }
 
-    // Updated SELECT query to include nationality, language, passport_image, and work_permit_image
+    // Get maid by ID (with visa details)
     public static function getMaidById($maid_id) {
         global $conn;
         $stmt = $conn->prepare("SELECT m.maid_id, m.fname, m.lname, m.date_of_birth, m.language, m.skills, m.employment_status, m.nationality, m.created_at, m.updated_at,
@@ -65,7 +69,7 @@ class Maid {
         return $maid;
     }
 
-    // New delete function to remove a maid record by ID
+    // Delete maid by ID
     public static function deleteMaid($maid_id) {
         global $conn;
         $stmt = $conn->prepare("DELETE FROM maid WHERE maid_id = ?");
@@ -73,6 +77,180 @@ class Maid {
         $result = $stmt->execute();
         $stmt->close();
         return $result;
+    }
+
+    // -------------------------------
+    // Analytics Functions
+    // -------------------------------
+
+    // 1. Total number of maids
+    public static function getTotalMaids() {
+        global $conn;
+        $query = "SELECT COUNT(*) AS total_maids FROM maid";
+        $result = $conn->query($query);
+        if ($result) {
+            $row = $result->fetch_assoc();
+            return $row['total_maids'];
+        }
+        return false;
+    }
+
+    // 2. Breakdown by employment status
+    public static function getMaidsByEmploymentStatus() {
+        global $conn;
+        $query = "SELECT employment_status, COUNT(*) AS total FROM maid GROUP BY employment_status ORDER BY total DESC";
+        $result = $conn->query($query);
+        $data = array();
+        if ($result) {
+            while ($row = $result->fetch_assoc()){
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return false;
+    }
+
+    // 3. Nationality Alignment
+    public static function getNationalityAlignment() {
+        global $conn;
+        // Get the most common preferred nationality from clients
+        $query = "SELECT preferred_nationality FROM client GROUP BY preferred_nationality ORDER BY COUNT(*) DESC LIMIT 1";
+        $result = $conn->query($query);
+        if (!$result) {
+            return false;
+        }
+        $commonNationality = $result->fetch_assoc()['preferred_nationality'];
+    
+        // Count how many maids have that nationality
+        $stmt = $conn->prepare("SELECT COUNT(*) AS matching FROM maid WHERE nationality = ?");
+        $stmt->bind_param("s", $commonNationality);
+        $stmt->execute();
+        $stmt->bind_result($matching);
+        $stmt->fetch();
+        $stmt->close();
+    
+        // Get total number of maids
+        $totalQuery = "SELECT COUNT(*) AS total FROM maid";
+        $totalResult = $conn->query($totalQuery);
+        $totalRow = $totalResult->fetch_assoc();
+        $totalMaids = $totalRow['total'];
+    
+        $percentage = $totalMaids > 0 ? ($matching / $totalMaids) * 100 : 0;
+    
+        return array(
+            "common_nationality" => $commonNationality,
+            "matching" => $matching,
+            "total_maids" => $totalMaids,
+            "percentage" => $percentage
+        );
+    }
+    
+
+    // 4. Age distribution (calculated from date_of_birth)
+    public static function getAgeDistribution() {
+        global $conn;
+        $query = "SELECT TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) AS age, COUNT(*) AS total 
+                  FROM maid 
+                  GROUP BY age 
+                  ORDER BY age";
+        $result = $conn->query($query);
+        $data = array();
+        if ($result) {
+            while($row = $result->fetch_assoc()){
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return false;
+    }
+
+    // 5. Language breakdown
+    public static function getLanguageBreakdown() {
+        global $conn;
+        $query = "SELECT language, COUNT(*) AS total 
+                  FROM maid 
+                  GROUP BY language 
+                  ORDER BY total DESC";
+        $result = $conn->query($query);
+        $data = array();
+        if ($result) {
+            while($row = $result->fetch_assoc()){
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return false;
+    }
+
+    // 6. Nationality breakdown
+    public static function getNationalityBreakdown() {
+        global $conn;
+        $query = "SELECT nationality, COUNT(*) AS total 
+                  FROM maid 
+                  GROUP BY nationality 
+                  ORDER BY total DESC";
+        $result = $conn->query($query);
+        $data = array();
+        if ($result) {
+            while($row = $result->fetch_assoc()){
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return false;
+    }
+
+    // 7. Common skills and specialties
+    public static function getCommonSkills() {
+        global $conn;
+        $query = "SELECT skills, COUNT(*) AS total 
+                  FROM maid 
+                  GROUP BY skills 
+                  ORDER BY total DESC";
+        $result = $conn->query($query);
+        $data = array();
+        if ($result) {
+            while($row = $result->fetch_assoc()){
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return false;
+    }
+
+    // 8. Language Alignment: Percentage of maids whose language matches the most common client preferred language.
+    public static function getLanguageAlignment() {
+        global $conn;
+        // Get the most common preferred language from clients
+        $query = "SELECT preferred_language FROM client GROUP BY preferred_language ORDER BY COUNT(*) DESC LIMIT 1";
+        $result = $conn->query($query);
+        if (!$result) {
+            return false;
+        }
+        $commonLanguage = $result->fetch_assoc()['preferred_language'];
+    
+        // Count how many maids have that language
+        $stmt = $conn->prepare("SELECT COUNT(*) AS matching FROM maid WHERE language = ?");
+        $stmt->bind_param("s", $commonLanguage);
+        $stmt->execute();
+        $stmt->bind_result($matching);
+        $stmt->fetch();
+        $stmt->close();
+    
+        // Get total number of maids
+        $totalQuery = "SELECT COUNT(*) AS total FROM maid";
+        $totalResult = $conn->query($totalQuery);
+        $totalRow = $totalResult->fetch_assoc();
+        $totalMaids = $totalRow['total'];
+    
+        $percentage = $totalMaids > 0 ? ($matching / $totalMaids) * 100 : 0;
+    
+        return array(
+            "common_language" => $commonLanguage,
+            "matching" => $matching,
+            "total_maids" => $totalMaids,
+            "percentage" => $percentage
+        );
     }
 }
 ?>
