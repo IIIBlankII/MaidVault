@@ -1,16 +1,36 @@
 // charts.js
 
-// Reinitialize all charts (both Client and Maid analytics)
+// Helper function to get canvas context and destroy any existing Chart instance on that canvas
+function getCleanContext(canvasId) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) {
+    console.error(`Canvas with id ${canvasId} not found.`);
+    return null;
+  }
+  const existingChart = Chart.getChart(canvas);
+  if (existingChart) {
+    existingChart.destroy();
+  }
+  return canvas.getContext("2d");
+}
+
 function reinitializeCharts() {
-    // =========================
-    // Client Analytics Charts
-    // =========================
-  
-    // 1. Signups Per Day (Bar Chart)
-    const ctxDay = document.getElementById("signupsPerDayChart").getContext("2d");
+  // Optionally, if you use a global array, you can also clear it:
+  if (window.chartInstances) {
+    window.chartInstances.forEach(chart => chart.destroy());
+  }
+  window.chartInstances = [];
+
+  // =========================
+  // Client Analytics Charts
+  // =========================
+
+  // 1. Signups Per Day (Bar Chart)
+  const ctxDay = getCleanContext("signupsPerDayChart");
+  if (ctxDay) {
     const dayLabels = signupsPerDay.map(item => item.signup_date);
     const dayData = signupsPerDay.map(item => parseInt(item.total_signups));
-    new Chart(ctxDay, {
+    const signupsPerDayChart = new Chart(ctxDay, {
       type: "bar",
       data: {
         labels: dayLabels,
@@ -28,9 +48,12 @@ function reinitializeCharts() {
         scales: { y: { beginAtZero: true } }
       }
     });
-  
-    // 2. Signups Per Week (Bar Chart) with friendlier labels
-    const ctxWeek = document.getElementById("signupsPerWeekChart").getContext("2d");
+    window.chartInstances.push(signupsPerDayChart);
+  }
+
+  // 2. Signups Per Week (Bar Chart)
+  const ctxWeek = getCleanContext("signupsPerWeekChart");
+  if (ctxWeek) {
     const weekLabels = signupsPerWeek.map(item => {
       const str = item.signup_week.toString();
       const year = str.substring(0, 4);
@@ -38,7 +61,7 @@ function reinitializeCharts() {
       return `Week ${parseInt(weekNum)}, ${year}`;
     });
     const weekData = signupsPerWeek.map(item => parseInt(item.total_signups));
-    new Chart(ctxWeek, {
+    const signupsPerWeekChart = new Chart(ctxWeek, {
       type: "bar",
       data: {
         labels: weekLabels,
@@ -56,12 +79,15 @@ function reinitializeCharts() {
         scales: { y: { beginAtZero: true } }
       }
     });
-  
-    // 3. Signups Per Month (Line Chart)
-    const ctxMonth = document.getElementById("signupsPerMonthChart").getContext("2d");
+    window.chartInstances.push(signupsPerWeekChart);
+  }
+
+  // 3. Signups Per Month (Line Chart)
+  const ctxMonth = getCleanContext("signupsPerMonthChart");
+  if (ctxMonth) {
     const monthLabels = signupsPerMonth.map(item => item.signup_month);
     const monthData = signupsPerMonth.map(item => parseInt(item.total_signups));
-    new Chart(ctxMonth, {
+    const signupsPerMonthChart = new Chart(ctxMonth, {
       type: "line",
       data: {
         labels: monthLabels,
@@ -80,12 +106,15 @@ function reinitializeCharts() {
         scales: { y: { beginAtZero: true } }
       }
     });
-  
-    // 4. Clients By City (Pie Chart)
-    const ctxCity = document.getElementById("clientsByCityChart").getContext("2d");
+    window.chartInstances.push(signupsPerMonthChart);
+  }
+
+  // 4. Clients By City (Pie Chart)
+  const ctxCity = getCleanContext("clientsByCityChart");
+  if (ctxCity) {
     const cityLabels = clientsByCity.map(item => item.city);
     const cityData = clientsByCity.map(item => parseInt(item.total_clients));
-    new Chart(ctxCity, {
+    const clientsByCityChart = new Chart(ctxCity, {
       type: "pie",
       data: {
         labels: cityLabels,
@@ -108,16 +137,19 @@ function reinitializeCharts() {
         maintainAspectRatio: false
       }
     });
-  
-    // 5. Average Family Metrics (Bar Chart)
-    const ctxFamily = document.getElementById("familyMetricsChart").getContext("2d");
+    window.chartInstances.push(clientsByCityChart);
+  }
+
+  // 5. Average Family Metrics (Bar Chart)
+  const ctxFamily = getCleanContext("familyMetricsChart");
+  if (ctxFamily) {
     const familyLabels = ["Household Size", "Children", "Elders"];
     const familyData = [
       parseFloat(averageFamilyMetrics.avg_household_size).toFixed(2),
       parseFloat(averageFamilyMetrics.avg_children).toFixed(2),
       parseFloat(averageFamilyMetrics.avg_elders).toFixed(2)
     ];
-    new Chart(ctxFamily, {
+    const familyMetricsChart = new Chart(ctxFamily, {
       type: "bar",
       data: {
         labels: familyLabels,
@@ -143,12 +175,15 @@ function reinitializeCharts() {
         scales: { y: { beginAtZero: true } }
       }
     });
-  
-    // 6. Preferred Nationality Distribution (Pie Chart)
-    const ctxPrefNat = document.getElementById("preferredNationalityChart").getContext("2d");
+    window.chartInstances.push(familyMetricsChart);
+  }
+
+  // 6. Preferred Nationality Distribution (Pie Chart)
+  const ctxPrefNat = getCleanContext("preferredNationalityChart");
+  if (ctxPrefNat) {
     const prefNatLabels = preferredNationalityDistribution.map(item => item.preferred_nationality || "Not Specified");
     const prefNatData = preferredNationalityDistribution.map(item => parseInt(item.total));
-    new Chart(ctxPrefNat, {
+    const preferredNationalityChart = new Chart(ctxPrefNat, {
       type: "pie",
       data: {
         labels: prefNatLabels,
@@ -171,12 +206,15 @@ function reinitializeCharts() {
         maintainAspectRatio: false
       }
     });
-  
-    // 7. Preferred Language Distribution (Pie Chart)
-    const ctxPrefLang = document.getElementById("preferredLanguageChart").getContext("2d");
+    window.chartInstances.push(preferredNationalityChart);
+  }
+
+  // 7. Preferred Language Distribution (Pie Chart)
+  const ctxPrefLang = getCleanContext("preferredLanguageChart");
+  if (ctxPrefLang) {
     const prefLangLabels = preferredLanguageDistribution.map(item => item.preferred_language || "Not Specified");
     const prefLangData = preferredLanguageDistribution.map(item => parseInt(item.total));
-    new Chart(ctxPrefLang, {
+    const preferredLanguageChart = new Chart(ctxPrefLang, {
       type: "pie",
       data: {
         labels: prefLangLabels,
@@ -198,12 +236,15 @@ function reinitializeCharts() {
         maintainAspectRatio: false
       }
     });
-  
-    // 8. Work Type Distribution (Pie Chart)
-    const ctxWorkType = document.getElementById("workTypeChart").getContext("2d");
+    window.chartInstances.push(preferredLanguageChart);
+  }
+
+  // 8. Work Type Distribution (Pie Chart)
+  const ctxWorkType = getCleanContext("workTypeChart");
+  if (ctxWorkType) {
     const workTypeLabels = workTypeDistribution.map(item => item.work_type);
     const workTypeData = workTypeDistribution.map(item => parseInt(item.total));
-    new Chart(ctxWorkType, {
+    const workTypeChart = new Chart(ctxWorkType, {
       type: "pie",
       data: {
         labels: workTypeLabels,
@@ -223,16 +264,19 @@ function reinitializeCharts() {
         maintainAspectRatio: false
       }
     });
-  
-    // =========================
-    // Maid Analytics Charts
-    // =========================
-  
-    // 9. Employment Status Breakdown (Bar Chart)
-    const ctxEmployment = document.getElementById("employmentStatusChart").getContext("2d");
+    window.chartInstances.push(workTypeChart);
+  }
+
+  // =========================
+  // Maid Analytics Charts
+  // =========================
+
+  // 9. Employment Status Breakdown (Bar Chart)
+  const ctxEmployment = getCleanContext("employmentStatusChart");
+  if (ctxEmployment) {
     const employmentLabels = maidsByStatus.map(item => item.employment_status);
     const employmentData = maidsByStatus.map(item => parseInt(item.total));
-    new Chart(ctxEmployment, {
+    const employmentStatusChart = new Chart(ctxEmployment, {
       type: "bar",
       data: {
         labels: employmentLabels,
@@ -258,34 +302,40 @@ function reinitializeCharts() {
         scales: { y: { beginAtZero: true } }
       }
     });
-    
-    // 10. Nationality Alignment Chart (Bar Chart)
-    const ctxNatAlign = document.getElementById("nationalityAlignmentChart").getContext("2d");
+    window.chartInstances.push(employmentStatusChart);
+  }
+
+  // 10. Nationality Alignment Chart (Bar Chart)
+  const ctxNatAlign = getCleanContext("nationalityAlignmentChart");
+  if (ctxNatAlign) {
     const natAlignPercentage = parseFloat(nationalityAlignment.percentage).toFixed(2);
-    new Chart(ctxNatAlign, {
-        type: "bar",
-        data: {
-            labels: ["Nationality Alignment"],
-            datasets: [{
-                label: `Matching ${nationalityAlignment.common_nationality}`,
-                data: [natAlignPercentage],
-                backgroundColor: "rgba(54, 162, 235, 0.5)",
-                borderColor: "rgba(54, 162, 235, 1)",
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: { y: { beginAtZero: true, max: 100 } }
-        }
+    const nationalityAlignmentChart = new Chart(ctxNatAlign, {
+      type: "bar",
+      data: {
+        labels: ["Nationality Alignment"],
+        datasets: [{
+          label: `Matching ${nationalityAlignment.common_nationality}`,
+          data: [natAlignPercentage],
+          backgroundColor: "rgba(54, 162, 235, 0.5)",
+          borderColor: "rgba(54, 162, 235, 1)",
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: { y: { beginAtZero: true, max: 100 } }
+      }
     });
-    
-    // 11. Age Distribution (Bar Chart)
-    const ctxAge = document.getElementById("ageDistributionChart").getContext("2d");
+    window.chartInstances.push(nationalityAlignmentChart);
+  }
+
+  // 11. Age Distribution (Bar Chart)
+  const ctxAge = getCleanContext("ageDistributionChart");
+  if (ctxAge) {
     const ageLabels = ageDistribution.map(item => item.age);
     const ageData = ageDistribution.map(item => parseInt(item.total));
-    new Chart(ctxAge, {
+    const ageDistributionChart = new Chart(ctxAge, {
       type: "bar",
       data: {
         labels: ageLabels,
@@ -303,12 +353,15 @@ function reinitializeCharts() {
         scales: { y: { beginAtZero: true } }
       }
     });
-    
-    // 12. Maid Language Breakdown (Pie Chart)
-    const ctxMaidLang = document.getElementById("languageBreakdownChart").getContext("2d");
+    window.chartInstances.push(ageDistributionChart);
+  }
+
+  // 12. Maid Language Breakdown (Pie Chart)
+  const ctxMaidLang = getCleanContext("languageBreakdownChart");
+  if (ctxMaidLang) {
     const maidLangLabels = languageBreakdown.map(item => item.language);
     const maidLangData = languageBreakdown.map(item => parseInt(item.total));
-    new Chart(ctxMaidLang, {
+    const languageBreakdownChart = new Chart(ctxMaidLang, {
       type: "pie",
       data: {
         labels: maidLangLabels,
@@ -329,12 +382,15 @@ function reinitializeCharts() {
         maintainAspectRatio: false
       }
     });
-    
-    // 13. Maid Nationality Breakdown (Pie Chart)
-    const ctxMaidNat = document.getElementById("nationalityBreakdownChart").getContext("2d");
+    window.chartInstances.push(languageBreakdownChart);
+  }
+
+  // 13. Maid Nationality Breakdown (Pie Chart)
+  const ctxMaidNat = getCleanContext("nationalityBreakdownChart");
+  if (ctxMaidNat) {
     const maidNatLabels = nationalityBreakdown.map(item => item.nationality);
     const maidNatData = nationalityBreakdown.map(item => parseInt(item.total));
-    new Chart(ctxMaidNat, {
+    const nationalityBreakdownChart = new Chart(ctxMaidNat, {
       type: "pie",
       data: {
         labels: maidNatLabels,
@@ -355,12 +411,15 @@ function reinitializeCharts() {
         maintainAspectRatio: false
       }
     });
-    
-    // 14. Common Skills (Bar Chart)
-    const ctxSkills = document.getElementById("commonSkillsChart").getContext("2d");
+    window.chartInstances.push(nationalityBreakdownChart);
+  }
+
+  // 14. Common Skills (Bar Chart)
+  const ctxSkills = getCleanContext("commonSkillsChart");
+  if (ctxSkills) {
     const skillsLabels = commonSkills.map(item => item.skills);
     const skillsData = commonSkills.map(item => parseInt(item.total));
-    new Chart(ctxSkills, {
+    const commonSkillsChart = new Chart(ctxSkills, {
       type: "bar",
       data: {
         labels: skillsLabels,
@@ -378,111 +437,122 @@ function reinitializeCharts() {
         scales: { y: { beginAtZero: true } }
       }
     });
-    
-    // 15. Language Alignment Chart (Bar Chart)
-    const ctxLangAlign = document.getElementById("languageAlignmentChart").getContext("2d");
+    window.chartInstances.push(commonSkillsChart);
+  }
+
+  // 15. Language Alignment Chart (Bar Chart)
+  const ctxLangAlign = getCleanContext("languageAlignmentChart");
+  if (ctxLangAlign) {
     const langAlignPercentage = parseFloat(languageAlignment.percentage).toFixed(2);
-    new Chart(ctxLangAlign, {
-        type: "bar",
-        data: {
-            labels: ["Language Alignment"],
-            datasets: [{
-                label: `Matching ${languageAlignment.common_language}`,
-                data: [langAlignPercentage],
-                backgroundColor: "rgba(255, 159, 64, 0.5)",
-                borderColor: "rgba(255, 159, 64, 1)",
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: { y: { beginAtZero: true, max: 100 } }
-        }
+    const languageAlignmentChart = new Chart(ctxLangAlign, {
+      type: "bar",
+      data: {
+        labels: ["Language Alignment"],
+        datasets: [{
+          label: `Matching ${languageAlignment.common_language}`,
+          data: [langAlignPercentage],
+          backgroundColor: "rgba(255, 159, 64, 0.5)",
+          borderColor: "rgba(255, 159, 64, 1)",
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: { y: { beginAtZero: true, max: 100 } }
+      }
     });
+    window.chartInstances.push(languageAlignmentChart);
+  }
 
-    // =========================
-    // Visa Analytics Charts
-    // =========================
+  // =========================
+  // Visa Analytics Charts
+  // =========================
 
-    // 16. Upcoming Visa Expiration Alerts
-    const ctxVisaExp = document.getElementById("visaExpirationChart").getContext("2d");
-    // Example: Create a simple bar chart using expiration dates (or count per date)
-    // (You may need to process upcomingExpirations data to group by date)
+  // 16. Upcoming Visa Expiration Alerts (Bar Chart)
+  const ctxVisaExp = getCleanContext("visaExpirationChart");
+  if (ctxVisaExp) {
     const expLabels = upcomingExpirations.map(item => item.expiration_date);
-    const expData = upcomingExpirations.map(item => 1); // or count them if grouped
-    new Chart(ctxVisaExp, {
-        type: "bar",
-        data: {
-            labels: expLabels,
-            datasets: [{
-                label: "Expiring Visas",
-                data: expData,
-                backgroundColor: "rgba(255, 99, 132, 0.5)",
-                borderColor: "rgba(255, 99, 132, 1)",
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: { y: { beginAtZero: true } }
-        }
+    const expData = upcomingExpirations.map(item => 1); // or group/count as needed
+    const visaExpirationChart = new Chart(ctxVisaExp, {
+      type: "bar",
+      data: {
+        labels: expLabels,
+        datasets: [{
+          label: "Expiring Visas",
+          data: expData,
+          backgroundColor: "rgba(255, 99, 132, 0.5)",
+          borderColor: "rgba(255, 99, 132, 1)",
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: { y: { beginAtZero: true } }
+      }
     });
+    window.chartInstances.push(visaExpirationChart);
+  }
 
-    // 17. Distribution of Visa Types & Work Permit Statuses
-    const ctxVisaType = document.getElementById("visaTypeChart").getContext("2d");
-    // Process visaTypeDistribution data to create labels (e.g., "Type A / Permit OK")
+  // 17. Distribution of Visa Types & Work Permit Statuses (Pie Chart)
+  const ctxVisaType = getCleanContext("visaTypeChart");
+  if (ctxVisaType) {
     const visaTypeLabels = visaTypeDistribution.map(item => item.visa_type + " / " + item.work_permit_status);
     const visaTypeData = visaTypeDistribution.map(item => parseInt(item.total));
-    new Chart(ctxVisaType, {
-        type: "pie",
-        data: {
-            labels: visaTypeLabels,
-            datasets: [{
-                label: "Visa Types & Work Permit Statuses",
-                data: visaTypeData,
-                backgroundColor: [
-                    "rgba(54, 162, 235, 0.5)",
-                    "rgba(255, 206, 86, 0.5)",
-                    "rgba(255, 99, 132, 0.5)",
-                    "rgba(75, 192, 192, 0.5)",
-                    "rgba(153, 102, 255, 0.5)"
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-        }
+    const visaTypeChart = new Chart(ctxVisaType, {
+      type: "pie",
+      data: {
+        labels: visaTypeLabels,
+        datasets: [{
+          label: "Visa Types & Work Permit Statuses",
+          data: visaTypeData,
+          backgroundColor: [
+            "rgba(54, 162, 235, 0.5)",
+            "rgba(255, 206, 86, 0.5)",
+            "rgba(255, 99, 132, 0.5)",
+            "rgba(75, 192, 192, 0.5)",
+            "rgba(153, 102, 255, 0.5)"
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
     });
+    window.chartInstances.push(visaTypeChart);
+  }
 
-    // 18. Average Visa Duration (Days)
-    const ctxVisaDuration = document.getElementById("visaDurationChart").getContext("2d");
+  // 18. Average Visa Duration (Bar Chart)
+  const ctxVisaDuration = getCleanContext("visaDurationChart");
+  if (ctxVisaDuration) {
     const avgDuration = parseFloat(averageVisaDuration.avg_duration).toFixed(2);
-    new Chart(ctxVisaDuration, {
-        type: "bar",
-        data: {
-            labels: ["Avg Visa Duration (days)"],
-            datasets: [{
-                label: "Average Visa Duration",
-                data: [avgDuration],
-                backgroundColor: "rgba(153, 102, 255, 0.5)",
-                borderColor: "rgba(153, 102, 255, 1)",
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: { y: { beginAtZero: true } }
-        }
+    const visaDurationChart = new Chart(ctxVisaDuration, {
+      type: "bar",
+      data: {
+        labels: ["Avg Visa Duration (days)"],
+        datasets: [{
+          label: "Average Visa Duration",
+          data: [avgDuration],
+          backgroundColor: "rgba(153, 102, 255, 0.5)",
+          borderColor: "rgba(153, 102, 255, 1)",
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: { y: { beginAtZero: true } }
+      }
     });
+    window.chartInstances.push(visaDurationChart);
+  }
+}
 
-}
-  
 function renderCharts() {
-    reinitializeCharts();
+  reinitializeCharts();
 }
-  
+
+

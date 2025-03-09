@@ -212,9 +212,7 @@ $averageVisaDuration = Visa::getAverageVisaDuration();
     var visaTypeDistribution = <?php echo json_encode($visaTypeDistribution); ?>;
     var averageVisaDuration = <?php echo json_encode($averageVisaDuration); ?>;
   </script>
-  
-  <!-- Include charts.js file -->
-  <script src="path/to/charts.js"></script>
+
   <script>
     // Initialize all charts when page loads
     renderCharts();

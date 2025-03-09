@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__DIR__) . '/includes/db_connect.php';
+require_once dirname(__DIR__) . '/models/Maid.php';
 
 class Visa {
     public static function addVisaDetails(
@@ -152,5 +153,25 @@ class Visa {
         }
         return false;
     }
+
+    public static function getUpcomingExpirationsWithMaidName($days = 30) {
+        global $conn;
+        $query = "SELECT v.*, CONCAT(m.fname, ' ', m.lname) AS maid_name
+                  FROM visa_details v
+                  JOIN maid m ON v.maid_id = m.maid_id
+                  WHERE v.expiration_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL ? DAY)
+                  ORDER BY v.expiration_date ASC";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $days);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $expirations = array();
+        while ($row = $result->fetch_assoc()) {
+            $expirations[] = $row;
+        }
+        $stmt->close();
+        return $expirations;
+    }
+    
 }
 ?>

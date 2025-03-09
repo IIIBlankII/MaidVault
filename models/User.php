@@ -5,19 +5,21 @@ class User {
     public static function login($email, $password) {
         global $conn;
         
-        $stmt = $conn->prepare("SELECT id, email, password, role FROM users WHERE email = ?");
+        $stmt = $conn->prepare("SELECT id, fname, email, password, role FROM users WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $stmt->store_result();
         
         if ($stmt->num_rows == 1) {
-            $stmt->bind_result($id, $db_email, $db_password, $role);
+            $stmt->bind_result($id, $name, $db_email, $db_password, $role);
             $stmt->fetch();
             if (password_verify($password, $db_password)) {
                 $_SESSION['user_id'] = $id;
+                $_SESSION['user_name'] = $name; // Store the user's name in the session
                 $_SESSION['user_role'] = $role;
                 return [
                     "id" => $id,
+                    "name" => $name, // Return the name
                     "email" => $db_email,
                     "role" => $role
                 ];
