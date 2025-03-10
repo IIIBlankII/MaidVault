@@ -28,19 +28,19 @@ $maidsByStatus  = Maid::getMaidsByEmploymentStatus();
 <!-- Dynamic Dashboard Content -->
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 auto-rows-min">
   <!-- Total Maids Section -->
-  <div class="bg-gradient-to-br from-purple-300 to-purple-400 text-white p-4 rounded-lg shadow-2xl ">
+  <div class="bg-gradient-to-br from-neutral-50 to-neutral-200 text-purple-500 p-4 rounded-lg shadow-2xl ">
     <h2 class="text-lg font-semibold mb-4">Total Maids</h2>
     <p class="text-4xl font-bold"><?php echo $totalMaids; ?></p>
   </div>
 
   <!-- Total Clients Section -->
-  <div class="bg-gradient-to-br from-purple-300 to-purple-400 text-white p-4 rounded-lg shadow-2xl ">
+  <div class="bg-gradient-to-br from-neutral-50 to-neutral-200 text-purple-500 p-4 rounded-lg shadow-2xl ">
     <h2 class="text-lg font-semibold mb-4">Total Clients</h2>
     <p class="text-4xl font-bold"><?php echo $totalClients; ?></p>
   </div>
 
   <!-- Reminders Section -->
-<div class="bg-gradient-to-br from-purple-300 to-purple-400 text-white p-6 rounded-lg shadow-2xl lg:row-span-2">
+<div class="bg-gradient-to-br from-neutral-50 to-neutral-200 text-purple-500 p-6 rounded-lg shadow-2xl lg:row-span-2">
   <h2 class="text-lg font-semibold mb-6 tracking-wide">Upcoming Reminders</h2>
   
   <!-- Stylish Reminder Filter -->
@@ -62,7 +62,7 @@ $maidsByStatus  = Maid::getMaidsByEmploymentStatus();
 </div>
 
   <!-- Employment Status Chart (replacing Sales Overview) -->
-<div class="bg-gradient-to-br from-purple-300 to-purple-400 text-white p-4 rounded-lg shadow-lg col-span-1 md:col-span-2 chart-container" style="height:500px;">
+<div class="bg-gradient-to-br from-neutral-200 to-stone-300 text-purple-500 p-4 rounded-lg shadow-lg col-span-1 md:col-span-2 chart-container" style="height:500px;">
     <h2 class="text-lg font-semibold mb-4">Employment Status</h2>
     <canvas id="employmentStatusChart" class="w-full" style="height:100%;"></canvas>
   </div>

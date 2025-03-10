@@ -572,14 +572,14 @@ function reinitializeDashCharts() {
           label: "Employment Status",
           data: employmentData,
           backgroundColor: [
-            "rgba(54, 162, 235, 0.5)",
-            "rgba(75, 192, 192, 0.5)",
-            "rgba(255, 99, 132, 0.5)"
+           "#A78BFA ",
+            "#8B5CF6 ",
+            "#6D28D9 "
           ],
           borderColor: [
-            "rgba(54, 162, 235, 1)",
-            "rgba(75, 192, 192, 1)",
-            "rgba(255, 99, 132, 1)"
+            "#2E1065",
+            "#2E1065",
+            "#2E1065"
           ],
           borderWidth: 1
         }]

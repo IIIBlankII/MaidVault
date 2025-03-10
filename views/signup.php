@@ -47,7 +47,7 @@
 <body>
     <div class="animated-bg">
     <div class="login-container ">
-        <h1>Sign Up</h1>
+        <h1 class="text-xl font-semibold ">Sign Up</h1>
 
         <div style="height: 30px;"></div> <!-- Adjust height as needed -->
 

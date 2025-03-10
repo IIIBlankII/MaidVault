@@ -1,4 +1,6 @@
 // calendar.js
+function initializeCalendar(){
+
 
 // Initialize calendar variables
 let currentDate = new Date('2025-03-01');
@@ -230,3 +232,4 @@ document.getElementById('events-display').addEventListener('click', function(e) 
 
 // Generate the initial calendar on page load
 generateCalendar(currentMonth, currentYear);
+};

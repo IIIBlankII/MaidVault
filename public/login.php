@@ -32,7 +32,7 @@
   </style>
 <div class="animated-bg">
   <div class="login-container">
-    <h1>MaidVault</h1>
+    <h1 class="text-xl font-semibold">MaidVault</h1>
     <p>Please log in to continue</p>
 
     <form action="../controllers/loginController.php" method="POST">
