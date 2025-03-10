@@ -109,12 +109,14 @@ $updatedAt = date('d-m-Y (h:i A)', strtotime($maid['updated_at']));
         <p><strong>Updated at:</strong> <?php echo $updatedAt; ?></p>
     </div>
     
-    <!-- Delete Button Section -->
+    <!-- Delete Button Section (admin only) -->
+    <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
     <div class="mt-4" id="deleteButtonContainer" data-maid-id="<?php echo htmlspecialchars($maid['maid_id']); ?>">
         <button id="deleteButton" onclick="showConfirmDelete(event)" class="bg-red-500 text-white px-4 py-2 rounded-md">
             Delete
         </button>
     </div>
+    <?php endif; ?>
 </div>
 
 <script>

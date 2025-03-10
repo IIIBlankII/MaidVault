@@ -551,8 +551,51 @@ function reinitializeCharts() {
   }
 }
 
+function reinitializeDashCharts() {
+
+  if (!window.chartInstances) {
+    window.chartInstances = [];
+  }
+  
+  const ctxEmployment = getCleanContext("employmentStatusChart");
+  if (ctxEmployment) {
+    const employmentLabels = maidsByStatus.map(item => item.employment_status);
+    const employmentData = maidsByStatus.map(item => parseInt(item.total));
+    const employmentStatusChart = new Chart(ctxEmployment, {
+      type: "bar",
+      data: {
+        labels: employmentLabels,
+        datasets: [{
+          label: "Employment Status",
+          data: employmentData,
+          backgroundColor: [
+            "rgba(54, 162, 235, 0.5)",
+            "rgba(75, 192, 192, 0.5)",
+            "rgba(255, 99, 132, 0.5)"
+          ],
+          borderColor: [
+            "rgba(54, 162, 235, 1)",
+            "rgba(75, 192, 192, 1)",
+            "rgba(255, 99, 132, 1)"
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+    window.chartInstances.push(employmentStatusChart);
+  }
+}
 function renderCharts() {
   reinitializeCharts();
+}
+
+function renderDashCharts() {
+  reinitializeDashCharts();
 }
 
 

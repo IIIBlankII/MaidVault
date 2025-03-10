@@ -8,41 +8,57 @@ $totalMaids     = Maid::getTotalMaids();
 $maidsByStatus  = Maid::getMaidsByEmploymentStatus();
 ?>
 
-<!-- Dynamic Content for maindash.php (loaded via dashboard.js) -->
+<style>
+  /* Fade in from below animation */
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-fade-in {
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+</style>
+
+<!-- Dynamic Dashboard Content -->
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 auto-rows-min">
   <!-- Total Maids Section -->
-  <div class="bg-purple-300 text-white p-4 rounded-lg shadow-lg">
-    <h2 class="text-lg font-semibold mb-4">Total Maids</h2>
+  <div class="bg-gray-700 text-white p-6 rounded-lg shadow-lg transform transition duration-300 hover:scale-105 animate-fade-in">
+    <h2 class="text-lg font-semibold mb-4 text-purple-400">Total Maids</h2>
     <p class="text-4xl font-bold"><?php echo $totalMaids; ?></p>
   </div>
 
   <!-- Total Clients Section -->
-  <div class="bg-purple-300 text-white p-4 rounded-lg shadow-lg">
-    <h2 class="text-lg font-semibold mb-4">Total Clients</h2>
+  <div class="bg-gray-700 text-white p-6 rounded-lg shadow-lg transform transition duration-300 hover:scale-105 animate-fade-in">
+    <h2 class="text-lg font-semibold mb-4 text-purple-400">Total Clients</h2>
     <p class="text-4xl font-bold"><?php echo $totalClients; ?></p>
   </div>
 
   <!-- Reminders Section -->
-<!-- On large screens, span 2 rows so its height equals the combined height of the top row and the Employment Status container -->
-<div class="bg-purple-300 text-white p-4 rounded-lg shadow-lg lg:row-span-2">
-  <h2 class="text-lg font-extrabold mb-4">Upcoming Reminders</h2>
-  <!-- Reminder filter with minimal styling -->
-  <div class="mb-4">
-    <select id="reminderFilter" class="w-full font-semibold py-2 px-3 bg-transparent border-b border-white focus:outline-none focus:border-purple-400 appearance-none">
-      <option value="week" class="text-black">Next Week</option>
-      <option value="month" class="text-black">Next Month</option>
-      <option value="year" class="text-black">Next Year</option>
-    </select>
+  <div class="bg-gray-700 text-white p-6 rounded-lg shadow-lg lg:row-span-2 transform transition duration-300 hover:scale-105 animate-fade-in">
+    <h2 class="text-lg font-extrabold mb-4">Upcoming Reminders</h2>
+    <!-- Reminder filter -->
+    <div class="mb-4">
+      <select id="reminderFilter" class="w-full font-semibold py-2 px-3 bg-transparent border-b border-white focus:outline-none focus:border-purple-400 appearance-none">
+        <option value="week" class="text-black">Next Week</option>
+        <option value="month" class="text-black">Next Month</option>
+        <option value="year" class="text-black">Next Year</option>
+      </select>
+    </div>
+    <!-- Reminder list -->
+    <ul id="reminderList" class="space-y-2">
+      <!-- Reminders will be populated here dynamically -->
+    </ul>
   </div>
-  <!-- Reminder list -->
-  <ul id="reminderList" class="space-y-2">
-    <!-- Reminders will be populated here dynamically -->
-  </ul>
-</div>
 
-  <!-- Employment Status Chart (replacing Sales Overview) -->
-  <div class="bg-purple-300 text-white p-4 rounded-lg shadow-lg col-span-1 md:col-span-2 chart-container" style="height:500px;">
-    <h2 class="text-lg font-semibold mb-4">Employment Status</h2>
+  <!-- Employment Status Chart -->
+  <div class="bg-gray-700 text-white p-6 rounded-lg shadow-lg col-span-1 md:col-span-2 chart-container transform transition duration-300 hover:scale-105 animate-fade-in" style="height:500px;">
+    <h2 class="text-lg font-semibold mb-4 text-purple-400">Employment Status</h2>
     <canvas id="employmentStatusChart" class="w-full" style="height:100%;"></canvas>
   </div>
 </div>
@@ -51,9 +67,8 @@ $maidsByStatus  = Maid::getMaidsByEmploymentStatus();
   // Pass employment status data to JavaScript for charts.js to use.
   var maidsByStatus = <?php echo json_encode($maidsByStatus); ?>;
 
-  // Function to fetch reminders based on selected filter (week, month, or year)
+  // Function to fetch reminders based on the selected filter (week, month, or year)
   function fetchReminders(filter) {
-    // Modify the URL as needed to match your actual endpoint.
     fetch('../../controllers/getReminders.php?filter=' + filter)
       .then(response => response.json())
       .then(data => {
@@ -65,7 +80,6 @@ $maidsByStatus  = Maid::getMaidsByEmploymentStatus();
           data.forEach(reminder => {
             const li = document.createElement('li');
             li.classList.add('border-b', 'border-purple-700', 'pb-2', 'font-semibold');
-            // Assuming each reminder object has a 'text' property. Adjust if needed.
             li.textContent = reminder.text;
             reminderList.appendChild(li);
           });
@@ -76,11 +90,11 @@ $maidsByStatus  = Maid::getMaidsByEmploymentStatus();
       });
   }
 
-  // Add event listener to the filter dropdown
+  // Listen for changes on the reminder filter
   document.getElementById('reminderFilter').addEventListener('change', function() {
     fetchReminders(this.value);
   });
 
-  // Load default reminders (next week) when the content is loaded
+  // Load default reminders (Next Week) on page load
   fetchReminders(document.getElementById('reminderFilter').value);
 </script>

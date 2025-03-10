@@ -44,10 +44,10 @@ $averageVisaDuration = Visa::getAverageVisaDuration();
   <title>Analytics Dashboard</title>
   <!-- Load Chart.js from CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 20px;
       background: #f0f0f0;
     }
     h1, h2, h3 { color: #333; }

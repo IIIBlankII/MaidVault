@@ -94,9 +94,14 @@ function loadPage(page) {
               }   
           }
           
+          
           // Only reinitialize charts if analytics or maindash are loaded
-          if (page === "analytics" || page === "maindash") {
+          if (page === "analytics" ) {
               setTimeout(() => reinitializeCharts(), 100);
+          }
+
+          if (page === "maindash") {
+            setTimeout(() => reinitializeDashCharts(), 100);
           }
       })
       .catch(error => {
