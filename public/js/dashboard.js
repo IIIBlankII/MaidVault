@@ -83,7 +83,7 @@ function loadPage(page) {
                   newScript.text = oldScript.innerHTML;
               }
               document.body.appendChild(newScript);
-              // Optionally remove the script after execution
+              
               document.body.removeChild(newScript);
           });
           

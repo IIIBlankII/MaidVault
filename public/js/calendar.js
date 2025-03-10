@@ -1,6 +1,5 @@
-// calendar.js
-function initializeCalendar(){
 
+function initializeCalendar() {
 
 // Initialize calendar variables
 let currentDate = new Date('2025-03-01');
@@ -17,7 +16,7 @@ const eventsTitle = document.getElementById('events-title');
 const addEventBtn = document.getElementById('add-event-btn');
 const eventForm = document.getElementById('event-form');
 
-// Use provided event data or an empty object if none exists
+
 const eventData = window.events || {};
 
 // Function to generate the calendar grid for a given month and year
@@ -30,7 +29,7 @@ function generateCalendar(month, year) {
 
   const firstDay = new Date(year, month - 1, 1);
   let startDay = firstDay.getDay();
-  startDay = startDay === 0 ? 7 : startDay; // Adjust so Monday is first
+  startDay = startDay === 0 ? 7 : startDay; 
 
   // Fill in empty cells before the first day
   for (let i = 1; i < startDay; i++) {
@@ -49,7 +48,6 @@ function generateCalendar(month, year) {
     const monthStr = month.toString().padStart(2, '0');
     const dateStr = `${year}-${monthStr}-${dayStr}`;
 
-    // Add event indicator if events exist for this date
     const eventDiv = document.createElement('div');
     eventDiv.classList.add('text-xs');
     if (eventData.hasOwnProperty(dateStr)) {
