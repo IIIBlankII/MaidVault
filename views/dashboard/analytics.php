@@ -85,11 +85,12 @@ $averageVisaDuration = Visa::getAverageVisaDuration();
   </style>
 </head>
 <body>
-  <h1>Analytics Dashboard</h1>
+  <h1 class="text-5xl text-white font-bold pb-4">Analytics Dashboard</h1>
   
   <!-- Client Analytics Section -->
   <div class="section">
-    <h2>Client Analytics</h2>
+    <h2 class="text-3xl text-white font-bold pb-4">Client Analytics</h2>
+
     <!-- Display Total Clients -->
     <div class="card">
       <h3>Total Clients</h3>
@@ -134,7 +135,7 @@ $averageVisaDuration = Visa::getAverageVisaDuration();
   
   <!-- Maid Analytics Section -->
   <div class="section">
-    <h2>Maid Analytics</h2>
+    <h2 class="text-3xl text-white font-bold pb-4">Maid Analytics</h2>
     <!-- Display Total Maids -->
     <div class="card">
       <h3>Total Maids</h3>

@@ -37,8 +37,8 @@ function reinitializeCharts() {
         datasets: [{
           label: "Signups Per Day",
           data: dayData,
-          backgroundColor: "rgba(54, 162, 235, 0.5)",
-          borderColor: "rgba(54, 162, 235, 1)",
+          backgroundColor:"#C4B5FD" ,
+          borderColor: "#2E1065",
           borderWidth: 1
         }]
       },
@@ -68,8 +68,8 @@ function reinitializeCharts() {
         datasets: [{
           label: "Signups Per Week",
           data: weekData,
-          backgroundColor: "rgba(75, 192, 192, 0.5)",
-          borderColor: "rgba(75, 192, 192, 1)",
+          backgroundColor: "#C4B5FD ",
+          borderColor: "#6D28D9",
           borderWidth: 1
         }]
       },
@@ -122,12 +122,12 @@ function reinitializeCharts() {
           label: "Clients By City",
           data: cityData,
           backgroundColor: [
-            "rgba(255, 99, 132, 0.5)",
-            "rgba(54, 162, 235, 0.5)",
-            "rgba(255, 206, 86, 0.5)",
-            "rgba(75, 192, 192, 0.5)",
-            "rgba(153, 102, 255, 0.5)",
-            "rgba(255, 159, 64, 0.5)"
+            "#4C1D95  ",
+            "#C4B5FD ",
+            "#A78BFA ",
+            "#8B5CF6 ",
+            "#6D28D9 ",
+            "#2E1065"
           ],
           borderWidth: 1
         }]
@@ -157,14 +157,15 @@ function reinitializeCharts() {
           label: "Average Family Metrics",
           data: familyData,
           backgroundColor: [
-            "rgba(255, 159, 64, 0.5)",
-            "rgba(153, 102, 255, 0.5)",
-            "rgba(255, 205, 86, 0.5)"
+            "#4C1D95  ",
+            "#C4B5FD ",
+            "#A78BFA "
+
           ],
           borderColor: [
-            "rgba(255, 159, 64, 1)",
-            "rgba(153, 102, 255, 1)",
-            "rgba(255, 205, 86, 1)"
+            "#8B5CF6 ",
+            "#6D28D9",
+            "#2E1065"
           ],
           borderWidth: 1
         }]
@@ -191,12 +192,13 @@ function reinitializeCharts() {
           label: "Preferred Nationality",
           data: prefNatData,
           backgroundColor: [
-            "rgba(255, 99, 132, 0.5)",
-            "rgba(54, 162, 235, 0.5)",
-            "rgba(255, 206, 86, 0.5)",
-            "rgba(75, 192, 192, 0.5)",
-            "rgba(153, 102, 255, 0.5)",
-            "rgba(255, 159, 64, 0.5)"
+            "#4C1D95  ",
+            "#C4B5FD ",
+            "#A78BFA ",
+            "#8B5CF6 ",
+            "#6D28D9 ",
+            "#2E1065"
+
           ],
           borderWidth: 1
         }]
@@ -222,11 +224,11 @@ function reinitializeCharts() {
           label: "Preferred Language",
           data: prefLangData,
           backgroundColor: [
-            "rgba(75, 192, 192, 0.5)",
-            "rgba(255, 205, 86, 0.5)",
-            "rgba(153, 102, 255, 0.5)",
-            "rgba(255, 99, 132, 0.5)",
-            "rgba(54, 162, 235, 0.5)"
+            "#4C1D95  ",
+            "#C4B5FD ",
+            "#A78BFA ",
+            "#8B5CF6 ",
+            "#6D28D9 "
           ],
           borderWidth: 1
         }]
@@ -252,9 +254,9 @@ function reinitializeCharts() {
           label: "Work Type Distribution",
           data: workTypeData,
           backgroundColor: [
-            "rgba(255, 159, 64, 0.5)",
-            "rgba(255, 99, 132, 0.5)",
-            "rgba(75, 192, 192, 0.5)"
+            "#4C1D95  ",
+            "#C4B5FD ",
+            "#A78BFA "
           ],
           borderWidth: 1
         }]
@@ -284,14 +286,14 @@ function reinitializeCharts() {
           label: "Employment Status",
           data: employmentData,
           backgroundColor: [
-            "rgba(54, 162, 235, 0.5)",
-            "rgba(75, 192, 192, 0.5)",
-            "rgba(255, 99, 132, 0.5)"
+            "#4C1D95  ",
+            "#C4B5FD ",
+            "#A78BFA "
           ],
           borderColor: [
-            "rgba(54, 162, 235, 1)",
-            "rgba(75, 192, 192, 1)",
-            "rgba(255, 99, 132, 1)"
+            "#8B5CF6 ",
+            "#6D28D9 ",
+            "#4C1D95  "
           ],
           borderWidth: 1
         }]
@@ -316,8 +318,9 @@ function reinitializeCharts() {
         datasets: [{
           label: `Matching ${nationalityAlignment.common_nationality}`,
           data: [natAlignPercentage],
-          backgroundColor: "rgba(54, 162, 235, 0.5)",
-          borderColor: "rgba(54, 162, 235, 1)",
+          backgroundColor: "#4C1D95  ",
+          borderColor: "#8B5CF6 ",
+
           borderWidth: 1
         }]
       },
@@ -342,8 +345,8 @@ function reinitializeCharts() {
         datasets: [{
           label: "Age Distribution",
           data: ageData,
-          backgroundColor: "rgba(255, 206, 86, 0.5)",
-          borderColor: "rgba(255, 206, 86, 1)",
+          backgroundColor: "#C4B5FD",
+          borderColor: "#6D28D9 ",
           borderWidth: 1
         }]
       },
@@ -369,10 +372,10 @@ function reinitializeCharts() {
           label: "Maid Language Breakdown",
           data: maidLangData,
           backgroundColor: [
-            "rgba(75, 192, 192, 0.5)",
-            "rgba(255, 205, 86, 0.5)",
-            "rgba(153, 102, 255, 0.5)",
-            "rgba(255, 99, 132, 0.5)"
+            "#C4B5FD ",
+            "#A78BFA ",
+            "#8B5CF6",
+            "#6D28D9 "
           ],
           borderWidth: 1
         }]
@@ -398,10 +401,10 @@ function reinitializeCharts() {
           label: "Maid Nationality Breakdown",
           data: maidNatData,
           backgroundColor: [
-            "rgba(255, 99, 132, 0.5)",
-            "rgba(54, 162, 235, 0.5)",
-            "rgba(255, 206, 86, 0.5)",
-            "rgba(75, 192, 192, 0.5)"
+            "#C4B5FD ",
+            "#A78BFA ",
+            "#8B5CF6 ",
+            "#6D28D9 "
           ],
           borderWidth: 1
         }]
@@ -426,8 +429,8 @@ function reinitializeCharts() {
         datasets: [{
           label: "Common Skills",
           data: skillsData,
-          backgroundColor: "rgba(255, 159, 64, 0.5)",
-          borderColor: "rgba(255, 159, 64, 1)",
+          backgroundColor: "#2E1065",
+          borderColor: "#6D28D9",
           borderWidth: 1
         }]
       },
@@ -451,8 +454,8 @@ function reinitializeCharts() {
         datasets: [{
           label: `Matching ${languageAlignment.common_language}`,
           data: [langAlignPercentage],
-          backgroundColor: "rgba(255, 159, 64, 0.5)",
-          borderColor: "rgba(255, 159, 64, 1)",
+          backgroundColor: "#A78BFA",
+          borderColor: "#8B5CF6",
           borderWidth: 1
         }]
       },
@@ -481,8 +484,8 @@ function reinitializeCharts() {
         datasets: [{
           label: "Expiring Visas",
           data: expData,
-          backgroundColor: "rgba(255, 99, 132, 0.5)",
-          borderColor: "rgba(255, 99, 132, 1)",
+          backgroundColor: "#4C1D95 ",
+          borderColor: "#C4B5FD",
           borderWidth: 1
         }]
       },
@@ -508,11 +511,11 @@ function reinitializeCharts() {
           label: "Visa Types & Work Permit Statuses",
           data: visaTypeData,
           backgroundColor: [
-            "rgba(54, 162, 235, 0.5)",
-            "rgba(255, 206, 86, 0.5)",
-            "rgba(255, 99, 132, 0.5)",
-            "rgba(75, 192, 192, 0.5)",
-            "rgba(153, 102, 255, 0.5)"
+            "#4C1D95  ",
+            "#C4B5FD ",
+            "#A78BFA ",
+            "#8B5CF6 ",
+            "#6D28D9 "
           ],
           borderWidth: 1
         }]
